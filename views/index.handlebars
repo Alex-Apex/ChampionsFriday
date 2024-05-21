@@ -1,2 +1,5 @@
 <h1>Champions' Friday</h1>
-<!-- Add your HTMX components here -->
+<div hx-get="/badges" hx-trigger="load" hx-target="#badges-list">
+    Loading badges...
+</div>
+<div id="badges-list"></div>
