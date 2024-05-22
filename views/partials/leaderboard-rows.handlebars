@@ -1,0 +1,32 @@
+<table id="leaderboard-table" class="min-w-full bg-white">
+    <thead class="bg-logoGrey text-white">
+        <tr>
+            <th class="w-1/6 py-2">Name</th>
+            <th class="w-1/6 py-2">Seniority</th>
+            <th class="w-1/6 py-2">Practice</th>
+            <th class="w-1/6 py-2">Total Badges</th>
+            <th class="w-1/6 py-2">Quarter Badges</th>
+            <th class="w-1/6 py-2">Current Quarter Badges</th>
+        </tr>
+    </thead>
+    <tbody id="leaderboard-body">
+        {{#each champions}}
+        <tr>
+            <td class="border px-4 py-2">{{name}}</td>
+            <td class="border px-4 py-2">{{seniority}}</td>
+            <td class="border px-4 py-2">{{this.practice}}</td>
+            <td class="border px-4 py-2">{{this.totalBadges}}</td>
+            <td class="border px-4 py-2">{{this.quarterBadges}}</td>
+            <td class="border px-4 py-2">
+                {{#each this.badges}}
+                <div>
+                    <span class="font-bold">{{this.name}}</span>
+                    ({{this.material}})
+                </div>
+                {{/each}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+    <tfoot></tfoot>
+</table>
