@@ -22,12 +22,16 @@
             <td class="border w-1/6 py-2">{{this.totalBadges}}</td>
             <td class="border w-1/6 py-2">{{this.quarterBadges}}</td>
             <td class="border w-1/6 py-2">
-                {{#each this.badges}}
-                <div>
-                    <span class="font-bold">{{this.name}}</span>
-                    ({{this.material}})
-                </div>
-                {{/each}}
+                <ul>
+                    {{#each this.badges}}
+                    <li>
+                        <div>
+                            <span class="font-bold">{{this.name}}</span>
+                            ({{this.material}})
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
             </td>
         </tr>
         {{/each}}
