@@ -15,4 +15,16 @@ router.get("/badges", (req, res) => {
   res.render("partials/badges", { badges });
 });
 
+router.post("/awardbadge", (req, res) => {
+  const name = req.body.name;
+  const recipient = req.body.recipient;
+  const badges = [
+    { name: "Team Player", recipient: "John Doe" },
+    { name: "Innovator", recipient: "Jane Smith" },
+  ];
+  console.log("Awarding badge to ", name,);
+  badges.push({ name, recipient });
+  res.render("partials/badges", { badges });
+});
+
 module.exports = router;

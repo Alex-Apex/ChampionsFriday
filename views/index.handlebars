@@ -1,101 +1,107 @@
 <div class="h-screen w-full bg-white">
-    <div
-        class="top-bar h-16 w-full bg-apexBlue flex justify-start items-center p-4"
-    >
-        <img
-            src="./assets/Apex_logo_horizontal_white.png"
-            alt="Logo"
-            class="h-8 mr-4"
-        />
+    <div class="top-bar h-16 w-full bg-apexBlue flex justify-start items-center p-4">
+        <img src="./assets/Apex_logo_horizontal_white.png" alt="Logo" class="h-8 mr-4" />
         <h1 class="font-bold text-lg text-white">Champions' Friday</h1>
     </div>
 
     <div class="grid grid-cols-12 gap-0 h-[calc(100%-4rem)]">
         <aside
-            class="shadow-sm bg-logoGrey rounded-r-lg col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2 p-4 h-full"
-        >
+            class="shadow-sm bg-logoGrey rounded-r-lg col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2 p-4 h-full">
             <nav>
                 <ul>
                     <li class="flex items-center">
-                        <svg
-                            class="w-6 h-6 mr-2 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M3 4a1 1 0 011-1h3.279a1 1 0 01.7.292l1.296 1.296A1 1 0 0010.721 5H21a1 1 0 011 1v13a1 1 0 01-1 1H3a1 1 0 01-1-1V4z"
-                            />
+                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 4a1 1 0 011-1h3.279a1 1 0 01.7.292l1.296 1.296A1 1 0 0010.721 5H21a1 1 0 011 1v13a1 1 0 01-1 1H3a1 1 0 01-1-1V4z" />
                         </svg>
-                        <a
-                            href="#"
-                            class="text-white hover:text-yellow"
-                            hx-get="/home"
-                            >Home</a
-                        >
+                        <a href="#" class="text-white hover:text-yellow" hx-get="/home">Home</a>
                     </li>
                     <li class="flex items-center mt-4">
-                        <svg
-                            class="w-6 h-6 mr-2 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M12 20h.01M17.5 20h.01M7 20h.01"
-                            />
+                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M12 20h.01M17.5 20h.01M7 20h.01" />
                         </svg>
-                        <a
-                            href="#"
-                            class="text-white hover:text-yellow"
-                            hx-get="/features"
-                            >Features</a
-                        >
+                        <a href="#" class="text-white hover:text-yellow" hx-get="/features">Features</a>
                     </li>
                     <li class="flex items-center mt-4">
-                        <svg
-                            class="w-6 h-6 mr-2 text-white"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M11 17a4 4 0 104-4h-3m3 0h-4"
-                            />
+                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17a4 4 0 104-4h-3m3 0h-4" />
                         </svg>
-                        <a
-                            href="#"
-                            class="text-white hover:text-yellow"
-                            hx-get="/badgeshal"
-                            >Badges Hall</a
-                        >
+                        <a href="#" class="text-white hover:text-yellow" hx-get="/badgeshal">Badges Hall</a>
                     </li>
                 </ul>
             </nav>
         </aside>
 
-        <main
-            class="col-span-9 md:col-span-10 lg:col-span-10 xl:col-span-10 p-4 h-full bg-teal3"
-        >
-            <div
-                class="leaderboard"
-                hx-get="/leaderboard"
-                hx-trigger="load"
-                hx-target="#leaderboard-table"
-                hx-swap="outerHTML"
-            >
+        <main class="col-span-9 md:col-span-10 lg:col-span-10 xl:col-span-10 p-4 h-full bg-teal3">
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded", () => {
+                    const btnShwDlgNewBadge = document.getElementById('btnShwDlgNewBadge');
+                    const dlgAwardBadge = document.getElementById('dlgAwardBadge');
+                    btnShwDlgNewBadge.addEventListener("click", () => {
+                        dlgAwardBadge.showModal();
+                    });
+                });
+            </script>
+            <button id="btnShwDlgNewBadge" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Award New
+                Badge</button>
+            <dialog id="dlgAwardBadge"
+                class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:blur">
+                <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog">
+                    <h1 class="text-2xl font-bold mb-4">Award a Champion Badge</h1>
+
+                    <label class="flex flex-col">
+                        <span class="font-semibold">Username</span>
+                        <input id="txtUsername" name="txtUsername" type="text" class="mt-1 p-2 border rounded-md" />
+                    </label>
+
+                    <label class="flex flex-col">
+                        <span class="font-semibold">Date Awarded</span>
+                        <input id="txtDateAwarded" name="txtDateAwarded" type="date"
+                            class="mt-1 p-2 border rounded-md" />
+                    </label>
+
+                    <label class="flex flex-col">
+                        <span class="font-semibold">Event or Merit Description</span>
+                        <textarea id="txtDescription" name="txtDescription" class="mt-1 p-2 border rounded-md"
+                            rows="4"></textarea>
+                    </label>
+
+                    <div class="flex flex-col">
+                        <span class="font-semibold">Badges</span>
+                        <div class="grid grid-cols-2 gap-2 mt-1">
+                            <label><input type="checkbox" name="badges" value="Champion" class="mr-2">Champion</label>
+                            <label><input type="checkbox" name="badges" value="Integrity" class="mr-2">Integrity</label>
+                            <label><input type="checkbox" name="badges" value="Mentor" class="mr-2">Mentor</label>
+                            <label><input type="checkbox" name="badges" value="Pro" class="mr-2">Pro</label>
+                            <label><input type="checkbox" name="badges" value="Trailblazer"
+                                    class="mr-2">Trailblazer</label>
+                            <label><input type="checkbox" name="badges" value="Collaborator"
+                                    class="mr-2">Collaborator</label>
+                            <label><input type="checkbox" name="badges" value="Reliable" class="mr-2">Reliable</label>
+                            <label><input type="checkbox" name="badges" value="Visionary" class="mr-2">Visionary</label>
+                            <label><input type="checkbox" name="badges" value="Adaptive" class="mr-2">Adaptive</label>
+                            <label><input type="checkbox" name="badges" value="Expert" class="mr-2">Expert</label>
+                            <label><input type="checkbox" name="badges" value="Deep Diver" class="mr-2">Deep
+                                Diver</label>
+                            <label><input type="checkbox" name="badges" value="Versatile" class="mr-2">Versatile</label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-4 mt-4">
+                        <button type="button" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
+                            onclick="document.getElementById('dlgAwardBadge').close()">Cancel</button>
+                        <button hx-post="/awardbadge" hx-target="#dlgAwardBadge"
+                            class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Add Badge</button>
+                    </div>
+                </form>
+            </dialog>
+            <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-table"
+                hx-swap="outerHTML">
                 <h2 class="font-bold text-lg text-apexBlue">
                     Champions Leaderboard
                 </h2>
@@ -110,11 +116,7 @@
                             <th class="w-1/6 py-2">Current Quarter Badges</th>
                         </tr>
                     </thead>
-                    <tbody
-                        id="leaderboard-body"
-                        class="flex flex-col overflow-y-auto"
-                        style="height: 50vh"
-                    ></tbody>
+                    <tbody id="leaderboard-body" class="flex flex-col overflow-y-auto" style="height: 50vh"></tbody>
                 </table>
             </div>
         </main>
