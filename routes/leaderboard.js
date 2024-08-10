@@ -87,9 +87,60 @@ function getBadgeMaterial(badgeCount) {
 }
 
 router.get("/", async (req, res) => {
-  const championsRows = await getChampionsFridayLeaderboard();
+  const championsRows = await getChampionsFridayLeaderboard();  
+  const champions = getChampionsLeaderboardFromResult(championsRows);
+  res.render("partials/leaderboard-rows", { champions });
+});
+
+// Handles the event of awarding a new badge
+router.post("/awardbadge", async (req, res) => {
+  const { txtUsername, txtDateAwarded, txtDescription, badges } = req.body;
+  const badgeList = Array.isArray(badges) ? badges : [badges]; // Ensure badges is an array
+  const performanceEventTypeIds = badgeList.map(badge => {
+    // You need to map the badge name to its corresponding PerformanceEventTypeId
+    switch (badge) {
+      case "Champion": return 1;
+      case "Integrity": return 2;
+      case "Mentor": return 3;
+      case "Pro": return 4;
+      case "Trailblazer": return 5;
+      case "Collaborator": return 6;
+      case "Reliable": return 7;
+      case "Visionary": return 8;
+      case "Adaptive": return 9;
+      case "Expert": return 10;
+      case "Deep Diver": return 11;
+      case "Versatile": return 12;
+      default: return null;
+    }
+  }).filter(id => id !== null).join(',');
+
+  try {
+    const pool = await poolPromise;
+    const request = pool.request();
+    request
+      .input('Username', sql.VarChar(sql.MAX), txtUsername)
+      .input('PerformanceEventTypeIds', sql.NVarChar, performanceEventTypeIds)
+      .input('Notes', sql.Text, txtDescription)
+      .input('DateOccurred', sql.Date, txtDateAwarded);
+
+    await request.execute('InsertMultipleEmployeePerformanceEvents');
+    console.log("New Badges Awarded: ",badgeList);
+
+    const result = await getChampionsFridayLeaderboard();
+    const champs = getChampionsLeaderboardFromResult(result);
+    res.render("partials/leaderboard-rows", { champions: champs});
+
+  } catch (err) {
+    console.error("Error while attepmting to award badges:", err);
+    res.status(500).send("Error while attempting to award badges"); // TODO: Handle errors more robustly
+    return;
+  }
+});
+
+function getChampionsLeaderboardFromResult(result) {
   const flatBadgesCatalog = getAllBadges();
-  const champions = championsRows
+  const champions = result
     .map((row) => {
       //get all badges and materials per row
       const employeeBadges = flatBadgesCatalog.map((badge) => {
@@ -106,8 +157,7 @@ router.get("/", async (req, res) => {
         badges: employeeBadges
       }
     });
-  //console.log(champions);
-  res.render("partials/leaderboard-rows", { champions });
-});
+    return champions;
+}
 
 module.exports = router;

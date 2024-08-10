@@ -32,7 +32,7 @@ async function insertEmployeePerformanceEvent(event) { // TODO factor this funct
   }
 };
 
-// Handles the event of awarding a new badge
+/* // Handles the event of awarding a new badge
 router.post("/awardbadge", async (req, res) => {
   const { txtUsername, txtDateAwarded, txtDescription, badges } = req.body;
   const badgeList = Array.isArray(badges) ? badges : [badges]; // Ensure badges is an array
@@ -76,7 +76,7 @@ router.post("/awardbadge", async (req, res) => {
     res.status(500).send("Error while attempting to award badges"); // TODO: Handle errors more robustly
     return;
   }
-});
+}); */
 
 // Function to get the Champions' Friday leaderboard
 async function getChampionsFridayLeaderboard() {
