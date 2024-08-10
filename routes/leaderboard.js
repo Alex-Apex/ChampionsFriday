@@ -10,11 +10,20 @@ const MATERIAL_CATALOG = [
   'Platinum',
   'Diamond'
 ];
-const BADGES_CATALOG = {
-  'Professional Excellence': ['Champion', 'Integrity', 'Mentor', 'Pro'],
-  'Collaborative Synergy': ['Trailblazer', 'Collaborator','Reliable', 'Visionary'],
-  'Technical Mastery':['Adaptive','Expert', 'Deep Diver', 'Versatile']
-};
+const BADGES_CATALOG = [
+  {
+    Axis: 'Professional Excellence',
+    Badges: ['Champion', 'Integrity', 'Mentor', 'Pro']
+  },
+  {
+    Axis:'Collaborative Synergy', 
+    Badges: ['Trailblazer', 'Collaborator','Reliable', 'Visionary']
+  },
+  {
+    Axis: 'Technical Mastery',
+    Badges:['Adaptive','Expert', 'Deep Diver', 'Versatile']
+  }
+];
 
 // Function to get the Champions' Friday leaderboard
 async function getChampionsFridayLeaderboard() {
@@ -22,25 +31,30 @@ async function getChampionsFridayLeaderboard() {
     const pool = await poolPromise;
     const result = await pool.request().query(`
           SELECT 
-              [id],
-              [name],
-              [Total Badges],
-              [Earn Champion Badge] AS [Champion],
-              [Earn Integrity Badge] AS [Integrity],
-              [Earn Mentor Badge] AS [Mentor],
-              [Earn Pro Badge] AS [Pro],
-              [Earn Trailblazer Badge] AS [Trailblazer],
-              [Earn Collaborator Badge] AS [Collaborator],
-              [Earn Reliable Badge] AS [Reliable],
-              [Earn Visionary Badge] AS [Visionary],
-              [Earn Adaptive Badge] AS [Adaptive],
-              [Earn Expert Badge] AS [Expert],
-              [Earn Deep Diver Badge] AS [Deep Diver],
-              [Earn Versatile Badge] AS [Versatile],
-              [Receive a CAN] AS [CANs],
-              [Receive an Administrative Act] AS [A.Acts]
-          FROM [dbo].[ChampionsFridayLeaderboard]
-          ORDER BY [Total Badges] DESC
+              E.current_title AS [Current Title],
+              CFL.[id],
+              CFL.[name],
+              P.[name] AS [Practice Name],
+              CFL.[Total Badges],
+              CFL.[Earn Champion Badge] AS [Champion],
+              CFL.[Earn Integrity Badge] AS [Integrity],
+              CFL.[Earn Mentor Badge] AS [Mentor],
+              CFL.[Earn Pro Badge] AS [Pro],
+              CFL.[Earn Trailblazer Badge] AS [Trailblazer],
+              CFL.[Earn Collaborator Badge] AS [Collaborator],
+              CFL.[Earn Reliable Badge] AS [Reliable],
+              CFL.[Earn Visionary Badge] AS [Visionary],
+              CFL.[Earn Adaptive Badge] AS [Adaptive],
+              CFL.[Earn Expert Badge] AS [Expert],
+              CFL.[Earn Deep Diver Badge] AS [Deep Diver],
+              CFL.[Earn Versatile Badge] AS [Versatile],
+              CFL.[Receive a CAN] AS [CANs],
+              CFL.[Receive an Administrative Act] AS [A.Acts]
+          FROM 
+            [dbo].[ChampionsFridayLeaderboard] CFL 
+              INNER JOIN [dbo].[Employees] E On CFL.id = E.id
+              INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
+          ORDER BY CFL.[Total Badges] DESC
       `);
 
     return result.recordset; // Return the results
@@ -51,12 +65,9 @@ async function getChampionsFridayLeaderboard() {
 }
 
 function getAllBadges() {
-  const badges = Object.values(BADGES_CATALOG)
-        .reduce((acc, axis, idx, arr) => {
-          axis.map((v) => {
-            acc.push(v)});
-            return acc;
-          });
+  const badges = BADGES_CATALOG.reduce((acc, axis) => {    
+    return acc.concat(axis.Badges);
+  },[]);
   return badges;
 }
 
@@ -81,19 +92,21 @@ router.get("/", async (req, res) => {
   const champions = championsRows
     .map((row) => {
       //get all badges and materials per row
-      const employeeBadges = flatBadgesCatalog.map(badge => {
+      const employeeBadges = flatBadgesCatalog.map((badge) => {
         return { 
-          name: badge, 
+          name: badge,
           material: getBadgeMaterial(parseInt(row[badge]))
         }
       });
       return {
         name: row.name,
+        seniority: row['Current Title'],
+        practice: row['Practice Name'],
         totalBadges: row["Total Badges"],
         badges: employeeBadges
       }
     });
-  console.log(champions);
+  //console.log(champions);
   res.render("partials/leaderboard-rows", { champions });
 });
 
