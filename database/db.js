@@ -6,6 +6,7 @@ const dbConfig = {
     password: process.env.DB_PASSWORD,
     server: process.env.DB_SERVER,
     database: process.env.DB_DATABASE,
+    port: parseInt(process.env.DB_PORT, 1433),
     options: {
         encrypt: true, // Use encryption (recommended if you use Azure)
         enableArithAbort: true, // Terminate queries that result in overflow or divide-by-zero errors
