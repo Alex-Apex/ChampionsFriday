@@ -47,8 +47,10 @@
                     });
                 });
             </script>
-            <button id="btnShwDlgNewBadge" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Award New
-                Badge</button>
+            <button id="btnShwDlgNewBadge"
+                class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">
+                Award NewBadge
+            </button>
             <dialog id="dlgAwardBadge"
                 class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
                 <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog">
@@ -96,7 +98,7 @@
                         <button type="button" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
                             onclick="document.getElementById('dlgAwardBadge').close()">Cancel</button>
                         <button hx-post="/awardbadge" hx-target="#dlgAwardBadge"
-                            class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Add Badge</button>
+                            class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Award Badges</button>
                     </div>
                 </form>
             </dialog>
