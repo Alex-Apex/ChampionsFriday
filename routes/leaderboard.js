@@ -89,7 +89,7 @@ function getBadgeMaterial(badgeCount) {
 router.get("/", async (req, res) => {
   const championsRows = await getChampionsFridayLeaderboard();  
   const champions = getChampionsLeaderboardFromResult(championsRows);
-  res.render("partials/leaderboard-rows", { champions });
+  res.render("partials/leaderboard-cards", { champions });
 });
 
 // Handles the event of awarding a new badge
@@ -129,7 +129,7 @@ router.post("/awardbadge", async (req, res) => {
 
     const result = await getChampionsFridayLeaderboard();
     const champs = getChampionsLeaderboardFromResult(result);
-    res.render("partials/leaderboard-rows", { champions: champs});
+    res.render("partials/leaderboard-cards", { champions: champs});
 
   } catch (err) {
     console.error("Error while attepmting to award badges:", err);

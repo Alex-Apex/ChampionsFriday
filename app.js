@@ -10,7 +10,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Set Handlebars as the templating engine
-app.engine("handlebars", engine({ defaultLayout: "main" }));
+app.engine("handlebars", engine({ 
+  defaultLayout: "main", 
+  helpers:{ 
+    eq: function(a, b) {
+      return a === b;
+    }
+  }
+}));
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 

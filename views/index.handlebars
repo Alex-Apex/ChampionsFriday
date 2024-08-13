@@ -53,7 +53,7 @@
             </button>
             <dialog id="dlgAwardBadge"
                 class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
-                <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog" hx-target="#leaderboard-table">
+                <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog" hx-target="#leaderboard-list">
                     <h1 class="text-2xl font-bold mb-4">Award a Champion Badge</h1>
 
                     <label class="flex flex-col">
@@ -103,24 +103,12 @@
                     </div>
                 </form>
             </dialog>
-            <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-table"
+            <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-list"
                 hx-swap="outerHTML">
                 <h2 class="font-bold text-lg text-apexBlue">
                     Champions Leaderboard
                 </h2>
-                <table id="leaderboard-table" class="min-w-full bg-white">
-                    <thead class="bg-logoGrey text-white">
-                        <tr>
-                            <th class="w-1/6 py-2">Name</th>
-                            <th class="w-1/6 py-2">Seniority</th>
-                            <th class="w-1/6 py-2">Practice</th>
-                            <th class="w-1/6 py-2">Total Badges</th>
-                            <th class="w-1/6 py-2">Quarter Badges</th>
-                            <th class="w-1/6 py-2">Current Quarter Badges</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body" class="flex flex-col overflow-y-auto" style="height: 50vh"></tbody>
-                </table>
+                <div id="leaderboard-list" class="flex flex-col"></div>
             </div>
         </main>
     </div>
