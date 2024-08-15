@@ -31,11 +31,13 @@ async function getChampionsFridayLeaderboard() {
     const pool = await poolPromise;
     const result = await pool.request().query(`
           SELECT 
-              E.current_title AS [Current Title],
               CFL.[id],
               CFL.[name],
-              P.[name] AS [Practice Name],
-              CFL.[Total Badges],
+              P.[name] AS [Practice Name]
+              ,E.current_title AS [Current Title]
+              ,CFL.[Grand Total Badges]
+              ,CFL.[Quarter Badges]
+              ,CFL.[Quarter],
               CFL.[Earn Champion Badge] AS [Champion],
               CFL.[Earn Integrity Badge] AS [Integrity],
               CFL.[Earn Mentor Badge] AS [Mentor],
@@ -51,10 +53,10 @@ async function getChampionsFridayLeaderboard() {
               CFL.[Receive a CAN] AS [CANs],
               CFL.[Receive an Administrative Act] AS [A.Acts]
           FROM 
-            [dbo].[ChampionsFridayLeaderboard] CFL 
+              [dbo].[ChampionsFridayLeaderboardByQuarter]CFL 
               INNER JOIN [dbo].[Employees] E On CFL.id = E.id
               INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
-          ORDER BY CFL.[Total Badges] DESC
+          ORDER BY CFL.[Grand Total Badges] DESC
       `);
 
     return result.recordset; // Return the results
@@ -149,11 +151,15 @@ function getChampionsLeaderboardFromResult(result) {
           material: getBadgeMaterial(parseInt(row[badge]))
         }
       });
+      
       return {
+        id: row.id,
         name: row.name,
         seniority: row['Current Title'],
         practice: row['Practice Name'],
-        totalBadges: row["Total Badges"],
+        grandTotalBadges: row['Grand Total Badges'],
+        quarterBadges: row['Quarter Badges'],
+        quarter: row['Quarter'],
         badges: employeeBadges
       }
     });
