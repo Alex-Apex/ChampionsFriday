@@ -14,17 +14,21 @@
     <div class="m-4 items-center w-1/6">
       <label id="lblTotalBadges" class="text-sm text-gray-700 font-bold">Badges Earned in {{this.quarter}}</label>
       <p class="text-3xl font-extrabold text-apexBlue">{{ this.quarterBadges }}</p>
-      <label id="lblTotalBadges" class="text-sm text-gray-700 font-bold">Total Badges Earned</label>
+      <label id="lblTotalBadges" class="text-sm text-gray-700 font-bold">Total Level Badges</label>
       <p class="text-3xl font-extrabold text-apexBlue">{{ this.grandTotalBadges }}</p>
     </div>
     
     <div class="m-4 w-2/4">
-      <p class="text-sm text-gray-700 font-bold">Badges</p>
+      <p class="text-sm text-gray-700 font-bold">Value-Behavior Badgs Profile</p>
       <div class="grid grid-cols-4 gap-2">
       {{#each this.badges }}
          <span class="inline-block 
                text-white text-xs font-bold px-3 py-1 rounded-full 
-               {{#if (eq this.material "N/A")}}bg-teal2{{else}}bg-teal1{{/if}}">{{ this.name }}({{this.material}})</span>
+               {{#if (eq this.material "N/A")}}bg-teal2{{else}}bg-teal1{{/if}}">
+               {{#if (eq this.material "N/A")}}
+                {{ this.name}}</span>
+               {{else}}{{this.material}} {{ this.name }}</span>
+               {{/if}}
       {{/each }}
       </div>
     </div>
