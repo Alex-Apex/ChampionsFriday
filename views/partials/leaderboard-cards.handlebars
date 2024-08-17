@@ -1,4 +1,4 @@
-  <div id="leaderboard-list" class="flex flex-col">
+  <div id="leaderboard-list" class="flex flex-col overflow-y-auto" style="height: calc(100vh - 280px);">
     {{#each champions}}
     <!-- Card Component -->
     <div id="{{this.id}}_{{this.quarter}}" class="flex flex-row bg-white shadow-md rounded-lg p-8 m-4">
