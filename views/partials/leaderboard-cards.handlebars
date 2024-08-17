@@ -27,7 +27,7 @@
                {{#if (eq this.material "N/A")}}bg-teal2{{else}}bg-teal1 shadow-md{{/if}}">
                {{#if (eq this.material "N/A")}}
                 {{ this.name}}</span>
-               {{else}}{{this.material}} {{ this.name }}</span>
+               {{else}}{{this.material}} {{ this.name }} {{ this.count }}</span>
                {{/if}}
       {{/each }}
       </div>

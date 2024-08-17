@@ -177,11 +177,17 @@ async function getUsernameQuarterBadges(username, quarterId) {
  * @param {*} result 
  */
 function getMissingBadgesFromResult(result) {
-  // TODO: careful with the case where this result ends up empty
-  const user = getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
-  const missingBadges =  user.badges.filter((badge) => {
-    return badge.material === 'N/A';  
-  });
+  let missingBadges = [];
+  if(result.length === 0){
+    missingBadges = getAllBadges().map((badge) => {
+      return {name: badge, material: 'N/A'};
+    });
+  } else {
+    const user = getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
+    missingBadges = user.badges.filter((badge) => {
+      return badge.material === 'N/A';  
+    });
+  }
   return missingBadges;
 };
 
@@ -258,7 +264,8 @@ function getChampionsLeaderboardFromResult(result) {
       const employeeBadges = flatBadgesCatalog.map((badge) => {
         return { 
           name: badge,
-          material: getBadgeMaterial(parseInt(row[badge]))
+          material: getBadgeMaterial(parseInt(row[badge])),
+          count: parseInt(row[badge])
         }
       });
       
