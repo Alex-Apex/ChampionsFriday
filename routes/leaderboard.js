@@ -25,11 +25,38 @@ const BADGES_CATALOG = [
   }
 ];
 
-// Function to get the Champions' Friday leaderboard
-async function getChampionsFridayLeaderboard() {
+/**
+ * Validaes the filter for quarters has this following form:
+ * Q#-yyyy
+ * where # is a number from 1-4 and yyyy is a 4 digit year
+ * or * for all quarters
+ * @param {*} filter
+ * @returns
+ */
+function isValidLeaderboardQuarterFilter(filter){
+    //validate filter against regex that either has * or has letter Q#-yyyy
+    if (!filter || (filter !== '*' && !/^Q\d-\d{4}$/.test(filter))) {
+      return false;
+    }
+    return true;    
+  };
+
+  // Function to get the Champions' Friday leaderboard
+  async function getChampionsFridayLeaderboard(filter) {
+    let whereClause = '';
+    if(isValidLeaderboardQuarterFilter(filter)){
+      if (filter === '*') {
+        whereClause = '';
+      } else {
+        whereClause = `WHERE CFL.[Quarter] = '${filter}'`;
+      }
+    } else {
+      throw new Error (`User defined invalid quarter filter: ${filter}`); 
+    }  
+
   try {
     const pool = await poolPromise;
-    const result = await pool.request().query(`
+    const query = `
           SELECT 
               CFL.[id],
               CFL.[name],
@@ -56,9 +83,11 @@ async function getChampionsFridayLeaderboard() {
               [dbo].[ChampionsFridayLeaderboardByQuarter]CFL 
               INNER JOIN [dbo].[Employees] E On CFL.id = E.id
               INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
+          ${whereClause}
           ORDER BY CFL.[Grand Total Badges] DESC
-      `);
-
+      `;
+      console.log(query);
+    const result = await pool.request().query(query);
     return result.recordset; // Return the results
   } catch (err) {
     console.error('Error fetching Champions Friday leaderboard:', err);
@@ -89,7 +118,8 @@ function getBadgeMaterial(badgeCount) {
 }
 
 router.get("/", async (req, res) => {
-  const championsRows = await getChampionsFridayLeaderboard();  
+  const filter = req.query.txtQtrId || '*';
+  const championsRows = await getChampionsFridayLeaderboard(filter);  
   const champions = getChampionsLeaderboardFromResult(championsRows);
   res.render("partials/leaderboard-cards", { champions });
 });

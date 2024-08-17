@@ -47,10 +47,8 @@
                     });
                 });
             </script>
-            <button id="btnShwDlgNewBadge"
-                class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">
-                Award New Badges
-            </button>
+            <h2 class="font-bold text-lg text-apexBlue">Champions Leaderboard</h2>
+            {{> leaderboard-toolbar}}
             <dialog id="dlgAwardBadge"
                 class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
                 <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog" hx-target="#leaderboard-list">
@@ -105,9 +103,6 @@
             </dialog>
             <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-list"
                 hx-swap="outerHTML">
-                <h2 class="font-bold text-lg text-apexBlue">
-                    Champions Leaderboard
-                </h2>
                 <div id="leaderboard-list" class="flex flex-col"></div>
             </div>
         </main>

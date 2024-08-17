@@ -1,0 +1,53 @@
+<div id="toolbar" class="flex flex-row bg-white p-4 rounded-md shadow-md">
+  <ul class="flex flex-row justify-items-strech">
+    <li class="flex flex-col mx-2">
+      <label for="txtQtrId">Quarter Id (* or Q#-yyyy)</label>
+      <input id="txtQtrId" name="txtQtrId" type="text" hx-include="[name='txtQtrId']"
+        hx-trigger="keyup delay:600ms changed" hx-get="/leaderboard" hx-target="#leaderboard-list"
+        value="*" placeholder="Q2-2024 or *" class="border-2 border-black rounded-md p-2" />
+    </li>
+    <li>
+      <button id="btnShwDlgNewBadge" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">
+        Award New Badges
+      </button>
+    </li>
+    <li>
+      <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+          const btnShwDlgFiltersConfig = document.getElementById('btnShwDlgFiltersConfig');
+          const dlgFiltersConfig = document.getElementById('dlgFiltersConfig');
+          btnShwDlgFiltersConfig.addEventListener("click", () => {
+            dlgFiltersConfig.showModal();
+          });
+        });
+      </script>
+      <button id="btnShwDlgFiltersConfig" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">
+        Filters Config
+      </button>
+      <dialog id="dlgFiltersConfig" title="Filters Config"
+        class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
+        <form id="frmFiltersConfig" class="flex flex-col space-y-4" method="dialog">
+          <h1 class="text-2xl font-bold mb-4">Leaderboard Filters Configuration</h1>
+          <p>
+          Configure filters(practice, seniority,quarter badges, total level badges, by axis, by badge)
+          </p>
+          <button id="btnCancelFiltersConfig" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
+          onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
+          <button id="btnSaveFiltersConfig" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
+          onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
+        </form>
+      </dialog>
+    </li>
+    <li>
+      <label>Sort By:
+        <select>
+          <option value="1">Badge Name</option>
+          <option value="2">Total Levels</option>
+          <option value="3">Seniority</option>
+          <option value="4">Practice</option>
+          <option value="5">Quarter Badges</option>
+        </select>
+      </label>
+    </li>
+  </ul>
+</div>
