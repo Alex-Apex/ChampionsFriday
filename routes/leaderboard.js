@@ -124,6 +124,86 @@ router.get("/", async (req, res) => {
   res.render("partials/leaderboard-cards", { champions });
 });
 
+/**
+ * 
+ * @param {*} username 
+ * @param {*} quarterId 
+ */
+async function getUsernameQuarterBadges(username, quarterId) {
+  const whereClause = ` WHERE CFL.[Quarter] = dbo.fn_GetQuarter(${quarterId}) AND E.[username] LIKE '${username}'`;
+  try {
+    const pool = await poolPromise;
+    const query = `
+          SELECT 
+              CFL.[id],
+              CFL.[name],
+              P.[name] AS [Practice Name]
+              ,E.current_title AS [Current Title]
+              ,CFL.[Grand Total Badges]
+              ,CFL.[Quarter Badges]
+              ,CFL.[Quarter],
+              CFL.[Earn Champion Badge] AS [Champion],
+              CFL.[Earn Integrity Badge] AS [Integrity],
+              CFL.[Earn Mentor Badge] AS [Mentor],
+              CFL.[Earn Pro Badge] AS [Pro],
+              CFL.[Earn Trailblazer Badge] AS [Trailblazer],
+              CFL.[Earn Collaborator Badge] AS [Collaborator],
+              CFL.[Earn Reliable Badge] AS [Reliable],
+              CFL.[Earn Visionary Badge] AS [Visionary],
+              CFL.[Earn Adaptive Badge] AS [Adaptive],
+              CFL.[Earn Expert Badge] AS [Expert],
+              CFL.[Earn Deep Diver Badge] AS [Deep Diver],
+              CFL.[Earn Versatile Badge] AS [Versatile],
+              CFL.[Receive a CAN] AS [CANs],
+              CFL.[Receive an Administrative Act] AS [A.Acts]
+          FROM 
+              [dbo].[ChampionsFridayLeaderboardByQuarter]CFL 
+              INNER JOIN [dbo].[Employees] E On CFL.id = E.id
+              INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
+          ${whereClause}
+          ORDER BY CFL.[Grand Total Badges] DESC
+      `;
+      console.log(query);
+    const result = await pool.request().query(query);
+    return result.recordset; // Return the results
+  } catch (err) {
+    console.error(`Failed fetching ${username}'s badges for quarter:${quarterId}`, err);
+    throw err; // Rethrow the error for handling elsewhere
+  }
+};
+
+/**
+ * Returns all the missing badges by determining which ones have been earned already
+ * @param {*} result 
+ */
+function getMissingBadgesFromResult(result) {
+  // TODO: careful with the case where this result ends up empty
+  const user = getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
+  const missingBadges =  user.badges.filter((badge) => {
+    return badge.material === 'N/A';  
+  });
+  return missingBadges;
+};
+
+/**
+ * 
+ */
+router.get("/quarter-badges", async(req, res) => {
+  const usernameFilter = req.query.txtUsername?`${req.query.txtUsername}` : `'%%'`;
+  const dateFilter = req.query.txtDateAwarded
+  ? `'${req.query.txtDateAwarded}'`
+  : `'${new Date().toISOString().split('T')[0]}'`;
+  try {
+    const result = await getUsernameQuarterBadges(usernameFilter, dateFilter);
+    console.log(`get Quarter Badges: username ${usernameFilter}, date:${dateFilter}`);
+    const availableBadges = getMissingBadgesFromResult(result);
+    res.render("partials/badges-checkbox-list", { availableBadges });
+  } catch (err) {
+    console.error(`Failed to get the available badges for the quarter and username provided`,err);
+    throw err
+  }
+});
+
 // Handles the event of awarding a new badge
 router.post("/awardbadge", async (req, res) => {
   const { txtUsername, txtDateAwarded, txtDescription, badges } = req.body;

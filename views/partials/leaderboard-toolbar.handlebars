@@ -3,10 +3,71 @@
     <li class="flex flex-col mx-2">
       <label for="txtQtrId">Quarter Id (* or Q#-yyyy)</label>
       <input id="txtQtrId" name="txtQtrId" type="text" hx-include="[name='txtQtrId']"
-        hx-trigger="keyup delay:600ms changed" hx-get="/leaderboard" hx-target="#leaderboard-list"
-        value="*" placeholder="Q2-2024 or *" class="border-2 border-black rounded-md p-2" />
+        hx-trigger="keyup delay:600ms changed" hx-get="/leaderboard" hx-target="#leaderboard-list" value="*"
+        placeholder="Q2-2024 or *" class="border-2 border-black rounded-md p-2" />
     </li>
     <li>
+      <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+          const btnShwDlgNewBadge = document.getElementById('btnShwDlgNewBadge');
+          const dlgAwardBadge = document.getElementById('dlgAwardBadge');
+          btnShwDlgNewBadge.addEventListener("click", () => {
+            dlgAwardBadge.showModal();
+          });
+        });
+      </script>
+      <dialog id="dlgAwardBadge"
+        class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
+        <form id="frmAwardChampionBadge" class="flex flex-col space-y-4" method="dialog" hx-target="#leaderboard-list">
+          <h1 class="text-2xl font-bold mb-4">Award Champion Badges</h1>
+
+          <label class="flex flex-col">
+            <span class="font-semibold">Username</span>
+            <input id="txtUsername" name="txtUsername" type="text" hx-target="#badgesCheckboxList"
+              hx-trigger="keyup delay:600ms changed" hx-get="/leaderboard/quarter-badges"
+              hx-include="[name='txtUsername'], [name='txtDateAwarded']" class="mt-1 p-2 border rounded-md" />
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold">Date Awarded</span>
+            <input id="txtDateAwarded" name="txtDateAwarded" type="date" hx-target="#badgesCheckboxList"
+              hx-trigger="change blur" hx-get="/leaderboard/quarter-badges" value=""
+              hx-include="[name='txtUsername'], [name='txtDateAwarded']" class="mt-1 p-2 border rounded-md" />
+          </label>
+
+          <label class="flex flex-col">
+            <span class="font-semibold">Event or Merit Description</span>
+            <textarea id="txtDescription" name="txtDescription" class="mt-1 p-2 border rounded-md" rows="4"></textarea>
+          </label>
+
+          <div class="flex flex-col">
+            <span class="font-semibold">Available Badges:</span>
+            <div id="badgesCheckboxList" class="grid grid-cols-2 gap-2 mt-1">
+              <label><input type="checkbox" name="badges" value="Champion" class="mr-2">Champion</label>
+              <label><input type="checkbox" name="badges" value="Integrity" class="mr-2">Integrity</label>
+              <label><input type="checkbox" name="badges" value="Mentor" class="mr-2">Mentor</label>
+              <label><input type="checkbox" name="badges" value="Pro" class="mr-2">Pro</label>
+              <label><input type="checkbox" name="badges" value="Trailblazer" class="mr-2">Trailblazer</label>
+              <label><input type="checkbox" name="badges" value="Collaborator" class="mr-2">Collaborator</label>
+              <label><input type="checkbox" name="badges" value="Reliable" class="mr-2">Reliable</label>
+              <label><input type="checkbox" name="badges" value="Visionary" class="mr-2">Visionary</label>
+              <label><input type="checkbox" name="badges" value="Adaptive" class="mr-2">Adaptive</label>
+              <label><input type="checkbox" name="badges" value="Expert" class="mr-2">Expert</label>
+              <label><input type="checkbox" name="badges" value="Deep Diver" class="mr-2">Deep
+                Diver</label>
+              <label><input type="checkbox" name="badges" value="Versatile" class="mr-2">Versatile</label>
+            </div>
+          </div>
+
+          <div class="flex justify-end space-x-4 mt-4">
+            <button type="button" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
+              onclick="document.getElementById('dlgAwardBadge').close()">Cancel</button>
+            <button hx-post="/leaderboard/awardbadge" type="submit"
+              class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
+              onclick="document.getElementById('dlgAwardBadge').close()">Award Badges</button>
+          </div>
+        </form>
+      </dialog>
       <button id="btnShwDlgNewBadge" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">
         Award New Badges
       </button>
@@ -29,12 +90,12 @@
         <form id="frmFiltersConfig" class="flex flex-col space-y-4" method="dialog">
           <h1 class="text-2xl font-bold mb-4">Leaderboard Filters Configuration</h1>
           <p>
-          Configure filters(practice, seniority,quarter badges, total level badges, by axis, by badge)
+            Configure filters(practice, seniority,quarter badges, total level badges, by axis, by badge)
           </p>
           <button id="btnCancelFiltersConfig" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
-          onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
+            onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
           <button id="btnSaveFiltersConfig" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
-          onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
+            onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
         </form>
       </dialog>
     </li>
