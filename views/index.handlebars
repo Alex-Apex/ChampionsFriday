@@ -3,40 +3,8 @@
         <img src="./assets/Apex_logo_horizontal_white.png" alt="Logo" class="h-8 mr-4" />
         <h1 class="font-bold text-lg text-white">Champions' Friday</h1>
     </div>
-
     <div class="grid grid-cols-12 gap-0 h-[calc(100%-4rem)]">
-        <aside
-            class="shadow-sm bg-logoGrey rounded-r-lg col-span-3 md:col-span-2 lg:col-span-2 xl:col-span-2 p-4 h-full">
-            <nav>
-                <ul>
-                    <li class="flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 4a1 1 0 011-1h3.279a1 1 0 01.7.292l1.296 1.296A1 1 0 0010.721 5H21a1 1 0 011 1v13a1 1 0 01-1 1H3a1 1 0 01-1-1V4z" />
-                        </svg>
-                        <a href="#" class="text-white hover:text-yellow" hx-get="/home">Home</a>
-                    </li>
-                    <li class="flex items-center mt-4">
-                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M12 20h.01M17.5 20h.01M7 20h.01" />
-                        </svg>
-                        <a href="#" class="text-white hover:text-yellow" hx-get="/features">Features</a>
-                    </li>
-                    <li class="flex items-center mt-4">
-                        <svg class="w-6 h-6 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 17a4 4 0 104-4h-3m3 0h-4" />
-                        </svg>
-                        <a href="#" class="text-white hover:text-yellow" hx-get="/badgeshal">Badges Hall</a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-
+        {{> sidebar}}
         <main class="col-span-9 md:col-span-10 lg:col-span-10 xl:col-span-10 p-4 bg-gray-100">
             <h2 class="font-bold text-lg text-apexBlue">Champions Leaderboard</h2>
             {{> leaderboard-toolbar}}
