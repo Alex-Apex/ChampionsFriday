@@ -195,18 +195,21 @@ function getMissingBadgesFromResult(result) {
  * 
  */
 router.get("/quarter-badges", async(req, res) => {
-  const usernameFilter = req.query.txtUsername?`${req.query.txtUsername}` : `'%%'`;
+  const usernameFilter = req.query.txtUsername?`${req.query.txtUsername}` : '';
   const dateFilter = req.query.txtDateAwarded
   ? `'${req.query.txtDateAwarded}'`
   : `'${new Date().toISOString().split('T')[0]}'`;
   try {
+    if(usernameFilter === ''){
+      throw new Error('Username is required and cannot be empty');
+    }
     const result = await getUsernameQuarterBadges(usernameFilter, dateFilter);
     console.log(`get Quarter Badges: username ${usernameFilter}, date:${dateFilter}`);
     const availableBadges = getMissingBadgesFromResult(result);
     res.render("partials/badges-checkbox-list", { availableBadges });
   } catch (err) {
     console.error(`Failed to get the available badges for the quarter and username provided`,err);
-    throw err
+    res.status(400).send(`Failed to get the available badges for the quarter and username provided ${err}`);
   }
 });
 
