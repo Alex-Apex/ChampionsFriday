@@ -248,7 +248,7 @@ router.post("/awardbadge", async (req, res) => {
     await request.execute('InsertMultipleEmployeePerformanceEvents');
     console.log("New Badges Awarded: ",badgeList);
 
-    const result = await getChampionsFridayLeaderboard();
+    const result = await getChampionsFridayLeaderboard('*'); // TODO find a way to refresh but with the date specified in the filers 
     const champs = getChampionsLeaderboardFromResult(result);
     res.render("partials/leaderboard-cards", { champions: champs});
 
