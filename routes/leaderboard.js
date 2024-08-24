@@ -1,214 +1,39 @@
 const express = require("express");
 const router = express.Router();
-const { poolPromise, sql } = require('../database/db');
-const MATERIAL_CATALOG = [
-  'N/A', // 0 => you have not obtained any badges yet
-  'Wood',
-  'Bronze',
-  'Silver',
-  'Gold',
-  'Platinum',
-  'Diamond'
-];
-const BADGES_CATALOG = [
-  {
-    Axis: 'Professional Excellence',
-    Badges: ['Champion', 'Integrity', 'Mentor', 'Pro']
-  },
-  {
-    Axis:'Collaborative Synergy', 
-    Badges: ['Trailblazer', 'Collaborator','Reliable', 'Visionary']
-  },
-  {
-    Axis: 'Technical Mastery',
-    Badges:['Adaptive','Expert', 'Deep Diver', 'Versatile']
-  }
-];
-
-/**
- * Validaes the filter for quarters has this following form:
- * Q#-yyyy
- * where # is a number from 1-4 and yyyy is a 4 digit year
- * or * for all quarters
- * @param {*} filter
- * @returns
- */
-function isValidLeaderboardQuarterFilter(filter){
-    //validate filter against regex that either has * or has letter Q#-yyyy
-    if (!filter || (filter !== '*' && !/^Q\d-\d{4}$/.test(filter))) {
-      return false;
-    }
-    return true;    
-  };
-
-  // Function to get the Champions' Friday leaderboard
-  async function getChampionsFridayLeaderboard(filter) {
-    let whereClause = '';
-    if(isValidLeaderboardQuarterFilter(filter)){
-      if (filter === '*') {
-        whereClause = '';
-      } else {
-        whereClause = `WHERE CFL.[Quarter] = '${filter}'`;
-      }
-    } else {
-      throw new Error (`User defined invalid quarter filter: ${filter}`); 
-    }  
-
-  try {
-    const pool = await poolPromise;
-    const query = `
-          SELECT 
-              CFL.[id],
-              CFL.[name],
-              P.[name] AS [Practice Name]
-              ,E.current_title AS [Current Title]
-              ,CFL.[Grand Total Badges]
-              ,CFL.[Quarter Badges]
-              ,CFL.[Quarter],
-              CFL.[Earn Champion Badge] AS [Champion],
-              CFL.[Earn Integrity Badge] AS [Integrity],
-              CFL.[Earn Mentor Badge] AS [Mentor],
-              CFL.[Earn Pro Badge] AS [Pro],
-              CFL.[Earn Trailblazer Badge] AS [Trailblazer],
-              CFL.[Earn Collaborator Badge] AS [Collaborator],
-              CFL.[Earn Reliable Badge] AS [Reliable],
-              CFL.[Earn Visionary Badge] AS [Visionary],
-              CFL.[Earn Adaptive Badge] AS [Adaptive],
-              CFL.[Earn Expert Badge] AS [Expert],
-              CFL.[Earn Deep Diver Badge] AS [Deep Diver],
-              CFL.[Earn Versatile Badge] AS [Versatile],
-              CFL.[Receive a CAN] AS [CANs],
-              CFL.[Receive an Administrative Act] AS [A.Acts]
-          FROM 
-              [dbo].[ChampionsFridayLeaderboardByQuarter]CFL 
-              INNER JOIN [dbo].[Employees] E On CFL.id = E.id
-              INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
-          ${whereClause}
-          ORDER BY CFL.[Grand Total Badges] DESC
-      `;
-      console.log(query);
-    const result = await pool.request().query(query);
-    return result.recordset; // Return the results
-  } catch (err) {
-    console.error('Error fetching Champions Friday leaderboard:', err);
-    throw err; // Rethrow the error for handling elsewhere
-  }
-}
-
-function getAllBadges() {
-  const badges = BADGES_CATALOG.reduce((acc, axis) => {    
-    return acc.concat(axis.Badges);
-  },[]);
-  return badges;
-}
-
-/**
- * 
- * @param {*} badgeCount 
- * @returns 
- */
-function getBadgeMaterial(badgeCount) {
-  if(badgeCount>=0  && badgeCount <= 6){
-    return MATERIAL_CATALOG[badgeCount];
-  } else if(badgeCount>6) {
-    return "Unobtanium";
-  } else {
-    return MATERIAL_CATALOG[0];
-  }
-}
+const qtrLeaderboard = require('../controllers/quarterly-leaderboard');
 
 router.get("/", async (req, res) => {
-  const filter = req.query.txtQtrId || '*';
-  const championsRows = await getChampionsFridayLeaderboard(filter);  
-  const champions = getChampionsLeaderboardFromResult(championsRows);
-  res.render("partials/leaderboard-cards", { champions });
+  const ctrl = new qtrLeaderboard();
+  try {
+    const filter = req.query.txtQtrId || '*';
+    const championsRows = await ctrl.getChampionsFridayLeaderboard(filter);
+    const champions = ctrl.getChampionsLeaderboardFromResult(championsRows);
+    res.render("partials/leaderboard-cards", { champions });
+  } catch (err) {
+    console.log('leaderboard: bad quarter id',err);
+    res.status(400).send('<h1>The Quarter you selected did not return any results</h1>');
+  }
 });
 
 /**
  * 
- * @param {*} username 
- * @param {*} quarterId 
  */
-async function getUsernameQuarterBadges(username, quarterId) {
-  const whereClause = ` WHERE CFL.[Quarter] = dbo.fn_GetQuarter(${quarterId}) AND E.[username] LIKE '${username}'`;
-  try {
-    const pool = await poolPromise;
-    const query = `
-          SELECT 
-              CFL.[id],
-              CFL.[name],
-              P.[name] AS [Practice Name]
-              ,E.current_title AS [Current Title]
-              ,CFL.[Grand Total Badges]
-              ,CFL.[Quarter Badges]
-              ,CFL.[Quarter],
-              CFL.[Earn Champion Badge] AS [Champion],
-              CFL.[Earn Integrity Badge] AS [Integrity],
-              CFL.[Earn Mentor Badge] AS [Mentor],
-              CFL.[Earn Pro Badge] AS [Pro],
-              CFL.[Earn Trailblazer Badge] AS [Trailblazer],
-              CFL.[Earn Collaborator Badge] AS [Collaborator],
-              CFL.[Earn Reliable Badge] AS [Reliable],
-              CFL.[Earn Visionary Badge] AS [Visionary],
-              CFL.[Earn Adaptive Badge] AS [Adaptive],
-              CFL.[Earn Expert Badge] AS [Expert],
-              CFL.[Earn Deep Diver Badge] AS [Deep Diver],
-              CFL.[Earn Versatile Badge] AS [Versatile],
-              CFL.[Receive a CAN] AS [CANs],
-              CFL.[Receive an Administrative Act] AS [A.Acts]
-          FROM 
-              [dbo].[ChampionsFridayLeaderboardByQuarter]CFL 
-              INNER JOIN [dbo].[Employees] E On CFL.id = E.id
-              INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
-          ${whereClause}
-          ORDER BY CFL.[Grand Total Badges] DESC
-      `;
-      console.log(query);
-    const result = await pool.request().query(query);
-    return result.recordset; // Return the results
-  } catch (err) {
-    console.error(`Failed fetching ${username}'s badges for quarter:${quarterId}`, err);
-    throw err; // Rethrow the error for handling elsewhere
-  }
-};
-
-/**
- * Returns all the missing badges by determining which ones have been earned already
- * @param {*} result 
- */
-function getMissingBadgesFromResult(result) {
-  let missingBadges = [];
-  if(result.length === 0){
-    missingBadges = getAllBadges().map((badge) => {
-      return {name: badge, material: 'N/A'};
-    });
-  } else {
-    const user = getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
-    missingBadges = user.badges.filter((badge) => {
-      return badge.material === 'N/A';  
-    });
-  }
-  return missingBadges;
-};
-
-/**
- * 
- */
-router.get("/quarter-badges", async(req, res) => {
-  const usernameFilter = req.query.txtUsername?`${req.query.txtUsername}` : '';
+router.get("/quarter-badges", async (req, res) => {
+  const ctrl = new qtrLeaderboard();
+  const usernameFilter = req.query.txtUsername ? `${req.query.txtUsername}` : '';
   const dateFilter = req.query.txtDateAwarded
-  ? `'${req.query.txtDateAwarded}'`
-  : `'${new Date().toISOString().split('T')[0]}'`;
+    ? `'${req.query.txtDateAwarded}'`
+    : `'${new Date().toISOString().split('T')[0]}'`;
   try {
-    if(usernameFilter === ''){
+    if (usernameFilter === '') {
       throw new Error('Username is required and cannot be empty');
     }
-    const result = await getUsernameQuarterBadges(usernameFilter, dateFilter);
+    const result = await ctrl.getUsernameQuarterBadges(usernameFilter, dateFilter);
     console.log(`get Quarter Badges: username ${usernameFilter}, date:${dateFilter}`);
-    const availableBadges = getMissingBadgesFromResult(result);
+    const availableBadges = ctrl.getMissingBadgesFromResult(result);
     res.render("partials/badges-checkbox-list", { availableBadges });
   } catch (err) {
-    console.error(`Failed to get the available badges for the quarter and username provided`,err);
+    console.error(`Failed to get the available badges for the quarter and username provided`, err);
     res.status(400).send(`Failed to get the available badges for the quarter and username provided ${err}`);
   }
 });
@@ -246,11 +71,12 @@ router.post("/awardbadge", async (req, res) => {
       .input('DateOccurred', sql.Date, txtDateAwarded);
 
     await request.execute('InsertMultipleEmployeePerformanceEvents');
-    console.log("New Badges Awarded: ",badgeList);
+    console.log("New Badges Awarded: ", badgeList);
+    const ctrl = new qtrLeaderboard();
 
-    const result = await getChampionsFridayLeaderboard('*'); // TODO find a way to refresh but with the date specified in the filers 
-    const champs = getChampionsLeaderboardFromResult(result);
-    res.render("partials/leaderboard-cards", { champions: champs});
+    const result = await ctrl.getChampionsFridayLeaderboard('*'); // TODO find a way to refresh but with the date specified in the filers 
+    const champs = ctrl.getChampionsLeaderboardFromResult(result);
+    res.render("partials/leaderboard-cards", { champions: champs });
 
   } catch (err) {
     console.error("Error while attepmting to award badges:", err);
@@ -258,32 +84,5 @@ router.post("/awardbadge", async (req, res) => {
     return;
   }
 });
-
-function getChampionsLeaderboardFromResult(result) {
-  const flatBadgesCatalog = getAllBadges();
-  const champions = result
-    .map((row) => {
-      //get all badges and materials per row
-      const employeeBadges = flatBadgesCatalog.map((badge) => {
-        return { 
-          name: badge,
-          material: getBadgeMaterial(parseInt(row[badge])),
-          count: parseInt(row[badge])
-        }
-      });
-      
-      return {
-        id: row.id,
-        name: row.name,
-        seniority: row['Current Title'],
-        practice: row['Practice Name'],
-        grandTotalBadges: row['Grand Total Badges'],
-        quarterBadges: row['Quarter Badges'],
-        quarter: row['Quarter'],
-        badges: employeeBadges
-      }
-    });
-    return champions;
-}
 
 module.exports = router;

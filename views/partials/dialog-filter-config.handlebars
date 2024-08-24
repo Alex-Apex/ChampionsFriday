@@ -1,13 +1,88 @@
 <dialog id="dlgFiltersConfig" title="Filters Config"
   class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
   <form id="frmFiltersConfig" class="flex flex-col space-y-4" method="dialog">
-    <h1 class="text-2xl font-bold mb-4">Leaderboard Filters Configuration</h1>
-    <p>
-      Configure filters(practice, seniority,quarter badges, total level badges, by axis, by badge)
-    </p>
-    <button id="btnCancelFiltersConfig" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
-      onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
-    <button id="btnSaveFiltersConfig" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
-      onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
+    <h1 class="text-2xl font-bold mb-4">Leaderboard Filters Configuration</h1>    
+    <!-- Practice Filter -->
+    <div class="flex flex-col">
+      <label for="practiceFilter" class="text-sm font-medium text-gray-700">Practice</label>
+      <select id="practiceFilter" name="practiceFilter" class="border border-gray-300 rounded-md p-2 focus:ring-logoGrey focus:border-logoGrey sm:text-sm">
+        <option value="all">All Practices</option>
+        <option value="frontend">Frontend Development</option>
+        <option value="net">.Net Development</option>
+        <option value="java">Java</option>
+        <option value="mobile">Mobile</option>
+        <option value="ux">UX</option>
+        <!-- Add more practices as needed -->
+      </select>
+    </div>
+    
+    <!-- Seniority Filter -->
+    <div class="flex flex-col">
+      <label for="seniorityFilter" class="text-sm font-medium text-gray-700">Seniority</label>
+      <select id="seniorityFilter" name="seniorityFilter" class="border border-gray-300 rounded-md p-2 focus:ring-logoGrey focus:border-logoGrey sm:text-sm">
+        <option value="all">All Seniority Levels</option>
+        <option value="junior">Associate</option>
+        <option value="mid">Consultant</option>
+        <option value="senior">Senior Consultan</option>
+        <option value="lead">Lead Consultant</option>
+        <option value="srlead">Sr Lead Consultant</option>
+        <option value="managingConsultant">Managing Consultant</option>
+        <option value="practiceManager">Practice Manager</option>
+      </select>
+    </div>
+    
+    <!-- Type of Badge Filter -->
+    <div class="flex flex-col">
+      <label class="text-sm font-medium text-gray-700">Type of Badge</label>
+      <div class="grid grid-cols-2 gap-2">
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeType" value="bronze" class="mr-2">
+          Bronze
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeType" value="silver" class="mr-2">
+          Silver
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeType" value="gold" class="mr-2">
+          Gold
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeType" value="platinum" class="mr-2">
+          Platinum
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeType" value="diamond" class="mr-2">
+          Diamond
+        </label>
+      </div>
+    </div>
+    
+    <!-- By Badge Axis Filter -->
+    <div class="flex flex-col">
+      <label class="text-sm font-medium text-gray-700">By Badge Axis</label>
+      <div class="grid grid-cols-1 gap-2">
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeAxis" value="professional-excellence" class="mr-2">
+          Professional Excellence
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeAxis" value="collaborative-synergy" class="mr-2">
+          Collaborative Synergy
+        </label>
+        <label class="flex items-center">
+          <input type="checkbox" name="badgeAxis" value="technical-mastery" class="mr-2">
+          Technical Mastery
+        </label>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-4 mt-4">
+      <button id="btnCancelFiltersConfig" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
+        onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
+      <button id="btnSaveFiltersConfig" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
+        onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
+    </div>
   </form>
 </dialog>
