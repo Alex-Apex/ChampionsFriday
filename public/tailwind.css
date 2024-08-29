@@ -566,6 +566,10 @@ video {
   margin: 1rem;
 }
 
+.m-8 {
+  margin: 2rem;
+}
+
 .mb-4 {
   margin-bottom: 1rem;
 }
