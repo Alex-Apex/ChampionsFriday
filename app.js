@@ -6,6 +6,7 @@ const { engine } = require("express-handlebars");
 const indexRouter = require("./routes/index");
 const leaderboardRouter = require("./routes/leaderboard");
 const quarterlyLeaderboardRouter = require("./routes/quarterly-leaderboard");
+const rosterManagerRouter = require("./routes/roster-manager");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/leaderboard", leaderboardRouter);
 app.use("/quarterly-leaderboard", quarterlyLeaderboardRouter);
+app.use("/roster-manager", rosterManagerRouter);
 
 // Start server
 app.listen(PORT, () => {

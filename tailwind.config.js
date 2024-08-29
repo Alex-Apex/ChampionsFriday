@@ -18,6 +18,7 @@ module.exports = {
         logoGrey: "#7C95A5",
         grey1: "#808083",
         grey2: "#D2DDE8",
+        grey3: "#EFEFEF",
         white: "#FFFFFF",
       },
     },

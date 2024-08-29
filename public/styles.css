@@ -2,3 +2,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.toolbar {
+  background-color:#efefef;
+  box-shadow: -3px -3px 7px #ffffff,
+              3px 3px 7px #81818173;
+  border-radius: 12px;
+  margin-top:4px;
+  margin-bottom: 4px;
+}

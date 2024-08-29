@@ -1,0 +1,11 @@
+<div>
+  {{#each roster}}
+    <div id="{{this.id}}{{this.name}}" class="flex flex-row bg-white shadow-md rounded-lg p-8 m-4">
+      <h2>{{this.name}}</h2>
+      <p><br/>{{this.username}}</p>
+      {{this.current_title}}
+    </div>
+    {{else}}
+    <h3>Query did not return any results</h3>
+  {{/each}}
+</div>
