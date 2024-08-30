@@ -147,7 +147,7 @@ class QuarterlyLeaderboard {
         return { name: badge, material: 'N/A' };
       });
     } else {
-      const user = getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
+      const user = this.getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
       missingBadges = user.badges.filter((badge) => {
         return badge.material === 'N/A';
       });
