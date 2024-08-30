@@ -7,8 +7,8 @@ router.get('/', async (req, res) => {
   try {
     const filter = req.query.txtQtrId || '*';
     const championsRows = await leaderboardCtrl.getChampionsFridayLeaderboard(filter);
-    const champions = leaderboardCtrl.getChampionsLeaderboardFromResult(championsRows);
-    res.render("partials/leaderboard-cards", {layout:'main',title:'Champions Friday Quarterly Leaderboard', champions });
+    const champions = leaderboardCtrl.getChampionsLeaderboardFromResult(championsRows);    
+    res.render("quarterly-leaderboard", {layout:'main',title:'Champions Friday Quarterly Leaderboard', champions });
     //res.render("partials/leaderboard-cards", { champions });
   } catch (err) {
     console.log('bad quarter id',err);

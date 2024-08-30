@@ -1,14 +1,7 @@
-<div class="h-screen w-full bg-white">
-{{> topbar}}
-    <div class="grid grid-cols-12 gap-0 h-[calc(100%-4rem)]">
-        {{> sidebar}}
-        <main class="col-span-9 md:col-span-10 lg:col-span-10 xl:col-span-10 p-4 bg-gray-100">
-            <h2 class="font-bold text-lg text-apexBlue">Champions Quarterly Leaderboard</h2>
-            {{> leaderboard-toolbar}}
-            <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-list"
-                hx-swap="outerHTML">
-                <div id="leaderboard-list" class="flex flex-col"></div>
-            </div>
-        </main>
+<main id="main" class="col-span-9 md:col-span-10 lg:col-span-10 xl:col-span-10 p-4 bg-gray-100">
+    <h2 class="font-bold text-lg text-apexBlue">Champions Quarterly Leaderboard</h2>
+    {{> leaderboard-toolbar}}
+    <div class="leaderboard" hx-get="/leaderboard" hx-trigger="load" hx-target="#leaderboard-list" hx-swap="outerHTML">
+        <div id="leaderboard-list" class="flex flex-col"></div>
     </div>
-</div>
+</main>
