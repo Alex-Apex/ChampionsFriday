@@ -1,11 +1,28 @@
-<div>
+<div class="flex flex-col overflow-y-auto" style="height: calc(100vh - 280px);">
   {{#each roster}}
-    <div id="{{this.id}}{{this.name}}" class="flex flex-row bg-white shadow-md rounded-lg p-8 m-4">
-      <h2>{{this.name}}</h2>
-      <p><br/>{{this.username}}</p>
-      {{this.current_title}}
+  <div id="{{this.id}}" class="bg-white shadow-md rounded-lg p-4 m-4 flex flex-row">
+    <!-- Practice Name -->
+    <div class="text-grey1 text-xs text-wrap  font-bold  rounded-full">
+      {{this.practice_name}}
     </div>
-    {{else}}
-    <h3>Query did not return any results</h3>
+
+    <!-- Employee Name and Title -->
+    <div class="m-4 flex flex-col justify-between">
+      <h2 class="text-xl font-semibold text-grey1">{{this.name}}</h2>
+      <p class="text-sm">{{this.current_title}}</p>
+    </div>
+
+    <!-- Username -->
+    <div class="m-4 flex flex-col justify-between">
+      <p class="text-sm text-gray-700"><span class="font-semibold text-grey1">Username:</span> {{this.username}}</p>
+      <p class="text-sm text-gray-700"><span class="font-semibold text-grey1">Reports to:</span> {{this.supervisor_name}}</p>
+    </div>
+
+    <div class="m-4 flex flex-col justify-between">
+      <button class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md self-end hover:bg-gray-700 transition">Edit</button>
+    </div>
+  </div>
+  {{else}}
+  <h3 class="text-center text-gray-500 mt-6">Query did not return any results</h3>
   {{/each}}
 </div>
