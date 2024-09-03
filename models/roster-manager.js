@@ -4,6 +4,32 @@ class RosterManager {
   constructor(team) {    
     this.roster = [];
   }
+  /**
+ * Inserts a new employee into the database.
+ * @param {object} employee - The employee object containing
+ * details to be inserted.
+ * @return {Promise<object>} - The inserted employee object.
+ */
+async insertEmployee(employee) {
+  try {
+    const pool = await appConnectionPoolPromise.connect();
+    const request = pool.request();
+
+    request
+        .input('EmployeeName', sql.NVarChar, employee.employeeName)
+        .input('EmployeeTitle', sql.NVarChar, employee.employeeTitle)
+        .input('ApexUsername', sql.NVarChar, employee.apexUsername)
+        .input('SupervisorName', sql.NVarChar, employee.supervisorName)
+        .input('PracticeName', sql.NVarChar, employee.practiceName)
+        .input('PoolId', sql.NVarChar, employee.poolId);
+
+    const result = await request.execute('InsertEmployee');
+    return result.recordset[0];
+  } catch (error) {
+    console.error('Error inserting employee:', error);
+    throw error;
+  }
+};
 
   /**
    * 

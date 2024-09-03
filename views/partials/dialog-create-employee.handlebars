@@ -1,0 +1,69 @@
+<dialog id="dlgAddEmployee" title="Add New Employee"
+  class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
+  <h1 class="text-2xl font-bold mb-4">Create New PAD Employee</h1>
+  <form id="frmAddEmployee" class="flex flex-col space-y-4" method="dialog">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Supervisor Name:</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Employee Name:</label>
+                    <input type="text" class="form-control" required />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Employee Title:</label>
+                    <input type="text" class="form-control" v-model="employee.employeeTitle" required />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Practice Name:</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Director's Pool ID</label>
+          <input type="text" class="form-control" />
+        </div>
+      </div>
+    </div>
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-4 mt-4">
+      <button id="btnCancelAddEmployee" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
+        hx-on:click="document.getElementById('dlgAddEmployee').close()">Cancel</button>
+      <button id="btnAddEmployee" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
+        hx-on:click="document.getElementById('dlgAddEmployee').close()">Save</button>
+    </div>
+  </form>
+  </dialog>
