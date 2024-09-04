@@ -1,7 +1,7 @@
 /**
  * Quarterly leaderboard controller
  */
-const { poolPromise, sql } = require('../database/db');
+const { poolPromise, sql } = require('../database/db'); // TODO refactor this out to the model
 const {
   BADGES_CATALOG,
   MATERIAL_CATALOG,
@@ -185,6 +185,51 @@ class QuarterlyLeaderboard {
         }
       });
     return champions;
+  }
+
+   /**
+    * 
+    * @param {*} username 
+    * @param {*} badgeList 
+    * @param {*} dateAwarded 
+    * @param {*} meritDescription 
+    * @returns 
+    */
+   async awardBadges(username, badgeList, dateAwarded, meritDescription){
+    const performanceEventTypeIds = badgeList.map(badge => {
+      // You need to map the badge name to its corresponding PerformanceEventTypeId
+      switch (badge) {
+        case "Champion": return 1;
+        case "Integrity": return 2;
+        case "Mentor": return 3;
+        case "Pro": return 4;
+        case "Trailblazer": return 5;
+        case "Collaborator": return 6;
+        case "Reliable": return 7;
+        case "Visionary": return 8;
+        case "Adaptive": return 9;
+        case "Expert": return 10;
+        case "Deep Diver": return 11;
+        case "Versatile": return 12;
+        default: return null;
+      }
+    }).filter(id => id !== null).join(',');
+  
+    try {
+      const pool = await poolPromise;
+      const request = pool.request();
+      request
+        .input('Username', sql.VarChar(sql.MAX), username)
+        .input('PerformanceEventTypeIds', sql.NVarChar, performanceEventTypeIds)
+        .input('Notes', sql.Text, meritDescription)
+        .input('DateOccurred', sql.Date, dateAwarded);
+  
+      await request.execute('InsertMultipleEmployeePerformanceEvents');
+      console.log("New Badges Awarded: ", badgeList);
+      return true;
+    } catch (err) {
+      throw new Error('Failed to insert badges', err);
+    }
   }
 };
 

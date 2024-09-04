@@ -6,6 +6,10 @@ class RosterManagerController {
     this.errorMessage = "";
   }
 
+  /**
+   * 
+   * @returns 
+   */
   async getViewObject(){
     const rosterManager = new RosterManager();
     try {
