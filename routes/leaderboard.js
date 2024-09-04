@@ -44,7 +44,7 @@ router.post("/awardbadge", async (req, res) => {
   const { txtUsername, txtDateAwarded, txtDescription, badges } = req.body;
   const badgeList = Array.isArray(badges) ? badges : [badges]; // Ensure badges is an array
   try {
-    ctrl.awardBadges(txtUsername, badgeList, txtDateAwarded, txtDescription)
+    ctrl.awardBadges(txtUsername, badgeList, txtDateAwarded, txtDescription);
     const result = await ctrl.getChampionsFridayLeaderboard('*'); // TODO find a way to refresh but with the date specified in the filers 
     const champs = ctrl.getChampionsLeaderboardFromResult(result);
     res.render("partials/leaderboard-cards", { champions: champs });
