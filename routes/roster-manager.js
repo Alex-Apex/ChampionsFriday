@@ -7,7 +7,17 @@ const rosterManagerController = require('../controllers/roster-manager-controlle
  */
 router.get("/", async (req, res) => {
   const ctrl = new rosterManagerController();
+  // TODO implement exception handling
   res.render("roster-manager", await ctrl.getViewObject());
+});
+
+/**
+ * 
+ */
+router.get("/name-from-username",async (req, res) => {
+  const ctrl = new rosterManagerController();
+  // TODO exception handling  
+  res.send(await ctrl.getNameFromUsername(req.query.txtSupervisorUsername));
 });
 
 module.exports = router;

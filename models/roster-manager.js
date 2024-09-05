@@ -79,7 +79,6 @@ async insertEmployee(employee) {
     //----
     try {
       const pool = await poolPromise;
-      console.log(query);
       const result = await pool.request().query(query);
       return result.recordset; // Return the results
     } catch (err) {
@@ -87,6 +86,68 @@ async insertEmployee(employee) {
       throw err; // Rethrow the error for handling elsewhere
     }
   }
+
+  /**
+   * 
+   * @returns 
+   */
+  async getPracticesCatalogue() {
+    const query = `SELECT * FROM Practices`;
+    try {
+      const pool = await poolPromise;
+      const result = await pool.request().query(query);
+      return result.recordset; // Return the results
+    } catch (err) {
+      console.error('RosterManager: Error fetching Practices Catalogue', err);
+      throw err; // Rethrow the error for handling elsewhere
+    }
+  }
+
+  /**
+   * 
+   */
+  async getDirectorsPoolsCatalogue() {
+    const query = `
+    SELECT DISTINCT(CAST(pool_id AS NVARCHAR(MAX))) AS id
+    FROM Employees;`;
+    try {
+      const pool = await poolPromise;
+      const result = await pool.request().query(query);
+      return result.recordset; // Return the results
+    } catch (err) {
+      console.error('RosterManager: Error fetching Practices Catalogue', err);
+      throw err; // Rethrow the error for handling elsewhere
+    }
+  }
+
+  /**
+   * Fetches the name that matches the employee's username
+   * @param {*} username 
+   * @returns 
+   */
+  async getNameFromUsername(username){
+    console.log(username);
+    const query = `
+    SELECT name 
+    FROM Employees 
+    WHERE username LIKE @username`;
+    
+    try {
+      const pool = await poolPromise;
+      const result = await pool.request()
+        .input('username', sql.NVarChar, `${username}`)  // Add wildcards for partial matching
+        .query(query);
+      
+      if (result.recordset.length > 0) {
+        return result.recordset[0].name; // Return the name if found
+      } else {
+        return null; // No results found
+      }
+    } catch (err) {
+      console.error('RosterManager: Error fetching name from username', err);
+      throw err; // Rethrow the error for handling elsewhere
+    }
+}
 };
 
 module.exports = RosterManager;
