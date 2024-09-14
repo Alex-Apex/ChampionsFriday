@@ -55,7 +55,7 @@ class RosterManagerController {
     const rosterManager = new RosterManager();
     try{
       const employee = this.getObjectFromBodyPayload(bodyPayload);      
-      //await rosterManager.insertEmployee(employee);
+      await rosterManager.insertEmployee(employee);
       this.roster = await rosterManager.getRoster();
     } catch(err){
       this.errorMessage = err;
