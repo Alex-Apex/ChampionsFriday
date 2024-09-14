@@ -116,7 +116,7 @@ class RosterManagerController {
       employeeTitle: bodyPayload.ddlEmployeeTitle,
       apexUsername: bodyPayload.txtUsername,
       supervisorUsername: bodyPayload.txtSupervisorUsername,
-      practiceName: bodyPayload.ddlPracticeName,
+      practiceId: bodyPayload.ddlPracticeName, //At this point this control really has the id
       poolId: bodyPayload.ddlDirectorsPool
     };
 console.log('--->',employee);

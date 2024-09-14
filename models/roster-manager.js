@@ -38,7 +38,7 @@ async insertEmployee(employee) {
         .input('EmployeeTitle', sql.NVarChar, employee.employeeTitle)
         .input('ApexUsername', sql.NVarChar, employee.apexUsername)
         .input('SupervisorUsername', sql.NVarChar, employee.supervisorUsername)
-        .input('PracticeName', sql.NVarChar, employee.practiceName)
+        .input('PracticeId', sql.NVarChar, employee.practiceId)
         .input('PoolId', sql.NVarChar, employee.poolId);
 
     const result = await request.execute('InsertEmployee');
