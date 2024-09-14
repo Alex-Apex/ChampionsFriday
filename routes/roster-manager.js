@@ -20,4 +20,28 @@ router.get("/name-from-username",async (req, res) => {
   res.send(await ctrl.getNameFromUsername(req.query.txtSupervisorUsername));
 });
 
+/**
+ * 
+ */
+router.post("/create-employee", async (req, res) => {
+  const ctrl = new rosterManagerController();  
+
+  // TODO exception handling
+  res.send(await ctrl.createEmployee(req.body));
+});
+
+/**
+ * 
+ */
+router.get('/edit-employee', async (req, res) => {
+  const ctrl = new rosterManagerController();
+  console.log('About to edit employee', req.query);
+  try {
+    res.status(200).render('partials/dialog-edit-employee', await ctrl.getEditEmployeeScreen(req.query.id));
+  } catch(err){
+    res.status(500).send(err);
+    //res.status(402).render('error', {message: err.message});
+  }
+});
+
 module.exports = router;

@@ -1,7 +1,26 @@
-<div class="flex flex-col overflow-y-auto" style="height: calc(100vh - 280px);">
+<div id="roster-list" class="flex flex-col overflow-y-auto" style="height: calc(100vh - 280px);">
   {{#each roster}}
   <div id="{{this.id}}" class="bg-white shadow-md rounded-lg p-4 m-4 flex flex-row">
     <!-- Practice Name -->
+    <!-- recordset:  {
+  id: 7,
+  name: 'Crystian Carranco',
+  current_title: 'CS - Practice Manager',
+  username: 'ccarranco',
+  company_start_date: null,
+  company_end_date: null,
+  location: 'GDL',
+  address: null,
+  supervisor_id: 2,
+  tags: null,
+  project_start_date: null,
+  project_end_date: null,
+  practice_id: 3,
+  pool_id: 'MDC - Alejandro Gomez',
+  ps_name: 'Carranco,Crystian',
+  ps_id: null,
+  resume_url: null
+}-->
     <div class="text-grey1 text-xs text-wrap  font-bold  rounded-full">
       {{this.practice_name}}
     </div>
@@ -19,7 +38,17 @@
     </div>
 
     <div class="m-4 flex flex-col justify-between">
-      <button class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md self-end hover:bg-gray-700 transition">Edit</button>
+      <!-- TODO make the button call the modal and fill it in with the employee data 
+        hx-on:click="document.getElementById('dlgAddEmployee').showModal()"        
+      -->
+      <button id="btnEmployee{{this.id}}"
+        hx-get="/roster-manager/edit-employee?id={{this.id}}"
+        hx-target="#dlgAddEmployeeContent"
+        hx-swap="outerHTML"
+        hx-on:htmx:afterSwap="document.getElementById('dlgAddEmployee').showModal()"
+        class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md self-end hover:bg-gray-700 transition">
+  Edit
+</button>
     </div>
   </div>
   {{else}}

@@ -1,27 +1,25 @@
-<dialog id="dlgAddEmployee" title="Add New Employee"
-  class="p-8 bg-white rounded-lg shadow-md backdrop:bg-gray-900 backdrop:bg-opacity-50 backdrop:backdrop-blur-sm">
-  <div id="dlgAddEmployeeContent">  
-  <h1 class="text-2xl font-bold mb-4">Create New PAD Employee</h1>
+<div id="dlgAddEmployeeContent">  
+  <h1 class="text-2xl font-bold mb-4">Edit Existing Employee</h1>
   <form id="frmAddEmployee" class="flex flex-col space-y-4" method="dialog">
     
     <!-- Username -->
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Username:</label>
-      <input type="text" id="txtUsername" name="txtUsername" class="border border-gray-300 rounded-md p-2" required />
+      <label class="font-medium text-gray-800">{{employee.username}}</label>
     </div>
 
     <!-- Full Name -->
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Full Name:</label>
-      <input type="text" id="txtName" name="txtName" class="border border-gray-300 rounded-md p-2" required />
+      <label class="font-medium text-gray-800">{{employee.name}}</label>
     </div>
        <!-- Employee Title -->
     <div class="flex flex-col">
-      <label class="text-sm font-medium text-gray-700">Title:</label>
-      <select id="ddlEmployeeTitle" name="ddlEmployeeTitle" class="border border-gray-300 rounded-md p-2" required>
-        <option value="">Select Title</option>
+      <label class="text-sm font-medium text-gray-700">Title:{{employee.current_title}}</label>
+      <select id="ddlEmployeeTitle" name="ddlEmployeeTitle" class="border border-gray-300 rounded-md p-2" required>        
         {{#each employeeTitles}}
-        <option value="{{this.title}}">{{this.title}}</option>
+          <option value="{{this.title}}" 
+          {{#if (eq this.title ../employee.current_title)}}selected{{/if}} >{{this.title}}</option>
         {{/each}}
         <!-- Dynamically load options here -->
       </select>
@@ -33,7 +31,8 @@
       <select id="ddlPracticeName" name="ddlPracticeName" class="border border-gray-300 rounded-md p-2" required>
         <option value="">Select Practice</option>
         {{#each practices}}
-        <option value="{{this.id}}">{{this.name}}</option>
+          <option value="{{this.id}}"
+          {{#if (eq this.id ../employee.practice_id)}} selected{{/if}} >{{this.name}}</option>
         {{/each}}
         <!-- Dynamically load options here -->
       </select>
@@ -43,6 +42,7 @@
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Supervisor's Username:</label>
       <input type="text" id="txtSupervisorUsername" name="txtSupervisorUsername"
+            value="{{employee.supervisor_username}}"
             hx-target="#lblSupervisorName" hx-trigger="change blur" hx-get="/roster-manager/name-from-username"
             hx-include="[name='txtSupervisorUsername']" hx-swap="innerHTML" class="border border-gray-300 rounded-md p-2" required />
       <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName">Supervisor: </p>
@@ -54,7 +54,8 @@
       <select id="ddlDirectorsPool" name="ddlDirectorsPool" class="border border-gray-300 rounded-md p-2" required>
         <option value="">Select Director</option>
         {{#each directorsPools}}
-          <option value="{{this.id}}">{{this.id}}</option>
+          <option value="{{this.id}}"
+          {{#if (eq this.id ../employee.pool_id)}}selected{{/if}}>{{this.id}}</option>
         {{/each}}
       </select>
     </div>
@@ -69,5 +70,4 @@
     </div>
 
   </form>
-  </div>
-</dialog>
+</div>

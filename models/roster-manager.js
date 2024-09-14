@@ -4,6 +4,24 @@ class RosterManager {
   constructor(team) {    
     this.roster = [];
   }
+
+  /***
+   * Retruns all possible employee titles
+   */
+  getEmployeeTitles(){
+    return [
+      {id:1, title:'CS - Associate Consultant'},
+      {id:2, title:'CS - Consultant'},
+      {id:3, title:'CS - Sr. Consultant'},
+      {id:4, title:'CS - Lead Consultant'},
+      {id:5, title:'CS - Sr. Lead Consultant'},
+      {id:6, title:'CS - Managing Consultant'},
+      {id:7, title:'CS - Practice Manager'},
+      {id:8, title:'CS - Practice Director'},
+      {id:9, title:'CS - SR Practice Director'},
+      {id:10, title:'CS - Managing Director'}
+    ];
+  }
   /**
  * Inserts a new employee into the database.
  * @param {object} employee - The employee object containing
@@ -12,7 +30,7 @@ class RosterManager {
  */
 async insertEmployee(employee) {
   try {
-    const pool = await appConnectionPoolPromise.connect();
+    const pool = await poolPromise;
     const request = pool.request();
 
     request
@@ -28,6 +46,34 @@ async insertEmployee(employee) {
   } catch (error) {
     console.error('Error inserting employee:', error);
     throw error;
+  }
+};
+
+/**
+ * 
+ * @param {*} id 
+ */
+async getEmployee(id){
+  const query = `
+  SELECT E.*, Mgr.username AS supervisor_username
+  FROM Employees E INNER JOIN Employees Mgr ON E.supervisor_id = Mgr.id 
+  WHERE E.id = @employeeId
+  `;
+  try{
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input('employeeId', sql.Int, id)
+      .query(query);
+
+    if (result.recordset.length > 0) {
+      console.log('recordset: ', result.recordset[0]);
+      return result.recordset[0]; // Return the name if found
+    } else {
+      throw new Error('Failed to find the employee assigned to id: ${id}');
+    }
+  }catch(err){
+    console.error('Error fetching employee:', err);
+    throw err;
   }
 };
 
@@ -125,8 +171,7 @@ async insertEmployee(employee) {
    * @param {*} username 
    * @returns 
    */
-  async getNameFromUsername(username){
-    console.log(username);
+  async getNameFromUsername(username){    
     const query = `
     SELECT name 
     FROM Employees 
@@ -147,6 +192,23 @@ async insertEmployee(employee) {
       console.error('RosterManager: Error fetching name from username', err);
       throw err; // Rethrow the error for handling elsewhere
     }
+}
+
+async getEmployeeById(userId){
+  const query = `
+  SELECT * 
+  FROM Employees
+  WHERE id = @userId`;
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request()
+      .input('userId', sql.NVarChar , userId)
+      .query(query);
+    return result.recordset[0];
+  } catch (err) {
+    console.error('RosterManager: Error fetching employee by id', err);
+    throw err; // Rethrow the error for handling elsewhere
+  }
 }
 };
 
