@@ -45,7 +45,7 @@
         hx-get="/roster-manager/edit-employee?id={{this.id}}"
         hx-target="#dlgAddEmployeeContent"
         hx-swap="outerHTML"
-        hx-on:htmx:afterSwap="document.getElementById('dlgAddEmployee').showModal()"
+        hx-on:click="document.getElementById('dlgAddEmployee').showModal()"
         class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md self-end hover:bg-gray-700 transition">
   Edit
 </button>
