@@ -991,6 +991,21 @@ video {
   color: rgb(107 114 128 / var(--tw-text-opacity));
 }
 
+.hover\:text-teal3:hover {
+  --tw-text-opacity: 1;
+  color: rgb(234 253 248 / var(--tw-text-opacity));
+}
+
+.hover\:text-teal1:hover {
+  --tw-text-opacity: 1;
+  color: rgb(55 186 162 / var(--tw-text-opacity));
+}
+
+.hover\:text-teal2:hover {
+  --tw-text-opacity: 1;
+  color: rgb(159 226 219 / var(--tw-text-opacity));
+}
+
 .focus\:border-logoGrey:focus {
   --tw-border-opacity: 1;
   border-color: rgb(124 149 165 / var(--tw-border-opacity));
