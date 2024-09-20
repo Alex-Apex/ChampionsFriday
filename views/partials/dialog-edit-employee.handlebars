@@ -5,13 +5,18 @@
     <!-- Username -->
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Username:</label>
-      <label class="font-medium text-gray-800">{{employee.username}}</label>
+      <label id="lblEmployeeUsername" name="lblEmployeeUsername" 
+        class="font-medium text-gray-800">{{employee.username}}</label>
+      <input type="hidden" name="hidEmployeeUsername" value="{{employee.username}}">
+      <input type="hidden" name="hidEmployeeId" id="hidEmployeeId" value="{{employee.id}}">
     </div>
 
     <!-- Full Name -->
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Full Name:</label>
-      <label class="font-medium text-gray-800">{{employee.name}}</label>
+      <label id="lblEmployeeName" name="lblEmployeeName" 
+        class="font-medium text-gray-800">{{employee.name}}</label>
+      <input type="hidden" name="hidEmployeeName" value="{{employee.name}}">
     </div>
        <!-- Employee Title -->
     <div class="flex flex-col">
@@ -43,9 +48,10 @@
       <label class="text-sm font-medium text-gray-700">Supervisor's Username:</label>
       <input type="text" id="txtSupervisorUsername" name="txtSupervisorUsername"
             value="{{employee.supervisor_username}}"
-            hx-target="#lblSupervisorName" hx-trigger="change blur" hx-get="/roster-manager/name-from-username"
+            hx-target="#lblSupervisorName" hx-trigger="change blur" hx-get="/roster-manager/employee-from-username"
             hx-include="[name='txtSupervisorUsername']" hx-swap="innerHTML" class="border border-gray-300 rounded-md p-2" required />
-      <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName">Supervisor: </p>
+      <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName">Supervisor: {{employee.supervisor_name}}</p>
+      <input id="hidSupervisorId" type="hidden" name="hidSupervisorId" value="{{employee.supervisor_id}}">
     </div>
 
     <!-- Director's Pool ID (Dynamically Loaded Dropdown) -->
@@ -65,8 +71,8 @@
       <button id="btnCancelAddEmployee" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
         hx-on:click="document.getElementById('dlgAddEmployee').close()">Cancel</button>
       <button id="btnAddEmployee" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
-        hx-post="/roster-manager/create-employee" hx-target="#roster-list" hx-swap="outerHTML" 
-        hx-on:click="document.getElementById('dlgAddEmployee').close()">Save</button>
+        hx-post="/roster-manager/update-employee" hx-target="#roster-list" hx-swap="outerHTML" 
+        hx-on:click="document.getElementById('dlgAddEmployee').close()">Save Changes</button>
     </div>
 
   </form>

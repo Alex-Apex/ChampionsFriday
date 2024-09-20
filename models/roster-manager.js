@@ -51,11 +51,48 @@ async insertEmployee(employee) {
 
 /**
  * 
+ * @param {*} employee 
+ */
+async updateEmployee(employee) {
+  console.log('About to update employee: ', employee);
+  try {
+    const pool = await poolPromise;
+    const request = pool.request();
+
+    // Add input parameters
+    request
+      .input('EmployeeId', sql.Int, employee.employeeId)      
+      .input('CurrentTitle', sql.NVarChar, employee.employeeTitle)      
+      .input('SupervisorId', sql.NVarChar, employee.supervisorId)
+      .input('PracticeId', sql.NVarChar, employee.practiceId)
+      .input('PoolId', sql.NVarChar, employee.poolId);
+    
+   const result = await request.query(`
+      UPDATE Employees
+      SET
+        current_title = @CurrentTitle,
+        supervisor_id = @SupervisorId,
+        practice_id = @PracticeId,
+        pool_id = @PoolId
+      OUTPUT INSERTED.*
+      WHERE id = @EmployeeId;
+    `);
+
+    // Return the updated record
+    return result.recordset[0];
+  } catch (err) {
+    console.error('Error updating employee:', err);
+    throw err;
+  }
+};
+
+/**
+ * 
  * @param {*} id 
  */
 async getEmployee(id){
   const query = `
-  SELECT E.*, Mgr.username AS supervisor_username
+  SELECT E.*, Mgr.username AS supervisor_username, Mgr.name AS supervisor_name
   FROM Employees E INNER JOIN Employees Mgr ON E.supervisor_id = Mgr.id 
   WHERE E.id = @employeeId
   `;
@@ -65,8 +102,7 @@ async getEmployee(id){
       .input('employeeId', sql.Int, id)
       .query(query);
 
-    if (result.recordset.length > 0) {
-      console.log('recordset: ', result.recordset[0]);
+    if (result.recordset.length > 0) {      
       return result.recordset[0]; // Return the name if found
     } else {
       throw new Error('Failed to find the employee assigned to id: ${id}');
@@ -171,9 +207,9 @@ async getEmployee(id){
    * @param {*} username 
    * @returns 
    */
-  async getNameFromUsername(username){    
+  async getEmployeeFromUsername(username){    
     const query = `
-    SELECT name 
+    SELECT *
     FROM Employees 
     WHERE username LIKE @username`;
     
@@ -184,7 +220,7 @@ async getEmployee(id){
         .query(query);
       
       if (result.recordset.length > 0) {
-        return result.recordset[0].name; // Return the name if found
+        return result.recordset[0]; // Return the employee record set if found
       } else {
         return null; // No results found
       }

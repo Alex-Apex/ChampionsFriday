@@ -40,11 +40,39 @@ class RosterManagerController {
    * @param {*} username 
    * @returns 
    */
-  async getNameFromUsername(username) {
+  async getEmployeeFromUsername(username) {
     const rosterManager = new RosterManager();
-    // TODO: need to handle exceptions whenever the result comes back empty
-    const supervisorName = await rosterManager.getNameFromUsername(username);    
-    return `Supervisor: ${supervisorName}`;
+    let response = ``;
+    try{
+      const supervisor = await rosterManager.getEmployeeFromUsername(username);
+      console.log('Supervisor: ', supervisor);
+      response = `
+      <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName" 
+        hx-swap-oob="true">
+        Supervisor: ${supervisor.name}
+      </p>
+      <input id="hidSupervisorId" type="hidden" name="hidSupervisorId" hx-swap-oob="true" value="${supervisor.id}">
+      <button id="btnAddEmployee" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
+        hx-post="/roster-manager/update-employee" hx-target="#roster-list" hx-swap="outerHTML" 
+        hx-on:click="document.getElementById('dlgAddEmployee').close()" hx-swap-oob="true">
+        Save Changes
+      </button>
+      `;
+
+    } catch(err){
+      response = `
+        <p id="lblSupervisorName" class="text-sm text-red-500 mt-2" hx-swap-oob="true">
+          Could not find this supervisor, please check supervisor's username
+        </p>
+        <input id="hidSupervisorId" type="hidden" name="hidSupervisorId" hx-swap-oob="true" value="">
+        <button id="btnAddEmployee" type="submit" 
+          class="bg-logoGrey text-gray-500 font-bold py-2 px-4 rounded-md" hx-swap-oob="true" disabled>
+          Save Changes
+        </button>
+      `;
+
+    }
+    return response;
   }
 
   /**
@@ -68,6 +96,7 @@ class RosterManagerController {
    * @param {*} employeeId 
    */
   async getEditEmployeeScreen(employeeId){
+    console.log('inside getEditEmployeeScreen');
     const rosterManager = new RosterManager();
     try{
       const employee = await rosterManager.getEmployee(employeeId);
@@ -84,6 +113,23 @@ class RosterManagerController {
       };
     }catch(err){
       console.log('error',err);
+    }
+  }
+
+  /**
+   * 
+   * @param {*} bodyPayload 
+   */
+  async updateEmployee(bodyPayload){
+    const rosterManager = new RosterManager();
+    try{
+      console.log('payload: ', bodyPayload);
+      const employee = this.getObjectFromBodyPayload(bodyPayload);
+      const updatedEmployee = await rosterManager.updateEmployee(employee);
+      console.log('Updated Employee! ',updatedEmployee);
+      return updatedEmployee;
+    } catch(err){
+      this.errorMessage = err;
     }
   }
 
@@ -109,17 +155,16 @@ class RosterManagerController {
    * @returns 
    */
   getObjectFromBodyPayload(bodyPayload){
-    console.log('INSIDE with payload: ', bodyPayload);
-
     const employee = {
-      employeeName: bodyPayload.txtName,
+      employeeId: bodyPayload.hidEmployeeId,
+      employeeName: bodyPayload.txtName === undefined ? bodyPayload.hidEmployeeName : bodyPayload.txtName, //This is a hidden field,
       employeeTitle: bodyPayload.ddlEmployeeTitle,
-      apexUsername: bodyPayload.txtUsername,
+      apexUsername: bodyPayload.txtUsername === undefined ? bodyPayload.hidEmployeeUsername : bodyPayload.txtUsername,
       supervisorUsername: bodyPayload.txtSupervisorUsername,
+      supervisorId: bodyPayload.hidSupervisorId,
       practiceId: bodyPayload.ddlPracticeName, //At this point this control really has the id
       poolId: bodyPayload.ddlDirectorsPool
     };
-console.log('--->',employee);
     return employee;
   }
 }
