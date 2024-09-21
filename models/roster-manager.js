@@ -65,7 +65,8 @@ async updateEmployee(employee) {
       .input('CurrentTitle', sql.NVarChar, employee.employeeTitle)      
       .input('SupervisorId', sql.NVarChar, employee.supervisorId)
       .input('PracticeId', sql.NVarChar, employee.practiceId)
-      .input('PoolId', sql.NVarChar, employee.poolId);
+      .input('PoolId', sql.NVarChar, employee.poolId)
+      .input('TerminatedFlag', sql.Bit, employee.terminatedFlag);
     
    const result = await request.query(`
       UPDATE Employees
@@ -73,7 +74,8 @@ async updateEmployee(employee) {
         current_title = @CurrentTitle,
         supervisor_id = @SupervisorId,
         practice_id = @PracticeId,
-        pool_id = @PoolId
+        pool_id = @PoolId,
+        terminated_flag = @TerminatedFlag
       OUTPUT INSERTED.*
       WHERE id = @EmployeeId;
     `);
@@ -127,12 +129,13 @@ async getEmployee(id){
           username,
           current_title,
           supervisor_id,
-          practice_id
+          practice_id,
+          terminated_flag
       FROM
           EMPLOYEES
       WHERE
           id = 2  -- the Id of the director you're starting from
-  
+        
       UNION ALL
   
       SELECT
@@ -141,7 +144,8 @@ async getEmployee(id){
           E.username,
           E.current_title,
           E.supervisor_id,
-          E.practice_id
+          E.practice_id,
+          E.terminated_flag
       FROM
           EMPLOYEES E
       INNER JOIN EmployeeHierarchy EH ON E.supervisor_id = EH.id
@@ -152,11 +156,13 @@ async getEmployee(id){
           EHE.current_title,
           EHE.supervisor_id,
           ESup.name AS supervisor_name,
-          EHE.practice_id, P.name AS practice_name 
+          EHE.practice_id, P.name AS practice_name,
+          EHE.terminated_flag
   FROM EmployeeHierarchy EHE INNER JOIN Practices P
     ON EHE.practice_id = P.id
     INNER JOIN Employees ESup
-    ON EHE.supervisor_id = ESup.id;
+    ON EHE.supervisor_id = ESup.id
+  WHERE EHE.terminated_flag = 0
     `;
     //----
     try {

@@ -96,7 +96,6 @@ class RosterManagerController {
    * @param {*} employeeId 
    */
   async getEditEmployeeScreen(employeeId){
-    console.log('inside getEditEmployeeScreen');
     const rosterManager = new RosterManager();
     try{
       const employee = await rosterManager.getEmployee(employeeId);
@@ -163,7 +162,8 @@ class RosterManagerController {
       supervisorUsername: bodyPayload.txtSupervisorUsername,
       supervisorId: bodyPayload.hidSupervisorId,
       practiceId: bodyPayload.ddlPracticeName, //At this point this control really has the id
-      poolId: bodyPayload.ddlDirectorsPool
+      poolId: bodyPayload.ddlDirectorsPool,
+      terminatedFlag: bodyPayload.markForDeletion? 1:0
     };
     return employee;
   }
