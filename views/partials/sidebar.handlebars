@@ -25,7 +25,7 @@
           </svg>
           <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal">Badges Hall</a>
         </div>
-        <p class="text-sm text-gray-300 mt-1">View all earned badges</p>
+        <p class="text-sm text-gray-300 mt-1">View and learn all about badges</p>
       </li>
 
       <!-- Quarterly Leaderboard Option -->
@@ -36,11 +36,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M11 17a4 4 0 104-4h-3m3 0h-4" />
           </svg>
-          <a href="#" class="text-apexBlue hover:text-teal1" 
-            hx-get="/quarterly-leaderboard" hx-target="#main"
-            hx-swap="outerHTML">Quarterly Leaderboard</a>
+          <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/quarterly-leaderboard" hx-target="#main" hx-swap="outerHTML">Quarterly Leaderboard</a>
         </div>
-        <p class="text-sm text-gray-300 mt-1">See who is leading this quarter</p>
+        <p class="text-sm text-gray-300 mt-1">See who is leading this and other quarters</p>
       </li>
 
       <!-- Yearly Leaderboard Option -->
@@ -51,9 +49,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M11 17a4 4 0 104-4h-3m3 0h-4" />
           </svg>
-          <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal" hx-target="main">Yearly Leaderboard</a>
+          <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal" hx-target="#main">Level Leaderboard</a>
         </div>
-        <p class="text-sm text-gray-300 mt-1">See the annual top performers</p>
+        <p class="text-sm text-gray-300 mt-1">See the top performers by their current level</p>
       </li>
 
       <!-- Champions' Friday Documentation Option -->
@@ -70,14 +68,14 @@
 
       <!-- Manage Minimum Level Profiles Option -->
       <li class="flex flex-col mt-4">
-        <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal" hx-target="#main">Manage Minimum Level Profiles</a>
+        <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal" hx-target="#main" hx-swap="outerHTML">Manage Minimum Level Profiles</a>
         <p class="text-sm text-gray-300 mt-1">Set minimum levels for profiles</p>
       </li>
 
-      <!-- Practice Performance Dashboard Option -->
+      <!-- Anonymouse Badge Validator -->
       <li class="flex flex-col mt-4">
-        <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/badgeshal">Practice Performance Dashboard</a>
-        <p class="text-sm text-gray-300 mt-1">Find out how your org is doing</p>
+        <a href="#" class="text-apexBlue hover:text-teal1" hx-get="/anonymous-validator" hx-target="#main" hx-swap="outerHTML">Anonymous Badge Validator</a>
+        <p class="text-sm text-gray-300 mt-1">Play the game and validate earned badges from your peers</p>
       </li>
 
       <!-- FAQ Option -->

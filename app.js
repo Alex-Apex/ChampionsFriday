@@ -7,6 +7,7 @@ const indexRouter = require("./routes/index");
 const leaderboardRouter = require("./routes/leaderboard");
 const quarterlyLeaderboardRouter = require("./routes/quarterly-leaderboard");
 const rosterManagerRouter = require("./routes/roster-manager");
+const anonymousValidator = require("./routes/anonymous-validator");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ app.use("/", indexRouter);
 app.use("/leaderboard", leaderboardRouter);
 app.use("/quarterly-leaderboard", quarterlyLeaderboardRouter);
 app.use("/roster-manager", rosterManagerRouter);
+app.use("/anonymous-validator", anonymousValidator);
 
 // Start server
 app.listen(PORT, () => {
