@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const qtrLeaderboard = require('../controllers/quarterly-leaderboard');
+const LevelLeaderboardController = require('../controllers/level-leaderboard-controller');
 
 router.get("/", async (req, res) => {
-  const ctrl = new qtrLeaderboard();
+  const ctrl = new LevelLeaderboardController();
+  
   try {
-    const filter = req.query.txtQtrId || '*';
-    const championsRows = await ctrl.getChampionsFridayLeaderboard(filter);
-    const champions = ctrl.getChampionsLeaderboardFromResult(championsRows);
-    res.render("partials/leaderboard-cards", { champions });
+    const filter = req.query.txtQtrId || '*';    
+    res.render("level-leaderboard", await ctrl.getLevelsLeaderboardView(filter));
   } catch (err) {
     console.log('leaderboard: bad quarter id',err);
     res.status(400).send('<h1>The Quarter you selected did not return any results</h1>');
@@ -19,7 +18,7 @@ router.get("/", async (req, res) => {
  * 
  */
 router.get("/quarter-badges", async (req, res) => {
-  const ctrl = new qtrLeaderboard();
+  const ctrl = new LevelLeaderboardController();
   const usernameFilter = req.query.txtUsername ? `${req.query.txtUsername}` : '';
   const dateFilter = req.query.txtDateAwarded
     ? `'${req.query.txtDateAwarded}'`
@@ -40,7 +39,7 @@ router.get("/quarter-badges", async (req, res) => {
 
 // Handles the event of awarding a new badge
 router.post("/awardbadge", async (req, res) => {
-  const ctrl = new qtrLeaderboard();
+  const ctrl = new LevelLeaderboardController();
   const { txtUsername, txtDateAwarded, txtDescription, badges } = req.body;
   const badgeList = Array.isArray(badges) ? badges : [badges]; // Ensure badges is an array
   try {
