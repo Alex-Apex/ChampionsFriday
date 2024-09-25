@@ -40,12 +40,12 @@ class RosterManagerController {
    * @param {*} username 
    * @returns 
    */
-  async getEmployeeFromUsername(username) {
+  async getEmployeeFromUsername(username, isEdit) { //TODO: tech debt: this method is too hardly coupled
     const rosterManager = new RosterManager();
     let response = ``;
     try{
       const supervisor = await rosterManager.getEmployeeFromUsername(username);
-      console.log('Supervisor: ', supervisor);
+      const postURL = isEdit === '1'?`update-employee`:`create-employee`;
       response = `
       <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName" 
         hx-swap-oob="true">
@@ -53,7 +53,7 @@ class RosterManagerController {
       </p>
       <input id="hidSupervisorId" type="hidden" name="hidSupervisorId" hx-swap-oob="true" value="${supervisor.id}">
       <button id="btnAddEmployee" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
-        hx-post="/roster-manager/update-employee" hx-target="#roster-list" hx-swap="outerHTML" 
+        hx-post="/roster-manager/${postURL}" hx-target="#roster-list" hx-swap="outerHTML" 
         hx-on:click="document.getElementById('dlgAddEmployee').close()" hx-swap-oob="true">
         Save Changes
       </button>

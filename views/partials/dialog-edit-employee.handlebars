@@ -47,7 +47,7 @@
     <div class="flex flex-col">
       <label class="text-sm font-medium text-gray-700">Supervisor's Username:</label>
       <input type="text" id="txtSupervisorUsername" name="txtSupervisorUsername"
-            value="{{employee.supervisor_username}}"
+            value="{{employee.supervisor_username}}" hx-vals='{"isEdit":1}'
             hx-target="#lblSupervisorName" hx-trigger="change blur" hx-get="/roster-manager/employee-from-username"
             hx-include="[name='txtSupervisorUsername']" hx-swap="innerHTML" class="border border-gray-300 rounded-md p-2" required />
       <p class="text-sm text-gray-500 mt-2" id="lblSupervisorName">Supervisor: {{employee.supervisor_name}}</p>

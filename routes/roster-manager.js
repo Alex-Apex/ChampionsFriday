@@ -16,8 +16,9 @@ router.get("/", async (req, res) => {
  */
 router.get("/employee-from-username",async (req, res) => {
   const ctrl = new rosterManagerController();
+  console.log('Payload: ',req.query);
   // TODO exception handling  
-  res.send(await ctrl.getEmployeeFromUsername(req.query.txtSupervisorUsername));
+  res.send(await ctrl.getEmployeeFromUsername(req.query.txtSupervisorUsername, req.query.isEdit));
 });
 
 /**
