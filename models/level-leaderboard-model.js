@@ -13,7 +13,7 @@ class LevelLeaderboardModel{
   async getChampionsFridayLeaderboard(filter){
     try{
       let champions = new ChampionsFridayModel();
-      let leaderboard = await champions.getChampionsFridayLeaderboard(filter);
+      let leaderboard = await champions.getChampionsFridayLeaderboardByYear(filter);
   
       return leaderboard;
     }catch(err){

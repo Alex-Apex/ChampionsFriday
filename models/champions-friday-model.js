@@ -119,6 +119,53 @@ class ChampionsFridayModel {
     }
   };
 
+ /**
+   * Builds the filter which is to be used in the query
+   * @param {*} filter 
+   * @returns 
+   */
+ async getChampionsFridayLeaderboardByYear(filter) { //TODO rename this to quarterly leaderboard...
+  try {
+    const whereClause = this._getWhereClauseFromFilter(filter);      
+    const query = `
+        SELECT 
+            CFL.[id],
+            CFL.[name],
+            P.[name] AS [Practice Name]
+            ,E.current_title AS [Current Title]
+            ,CFL.[Grand Total Badges]
+            ,CFL.[Year Badges]
+            ,CFL.[Year],
+            CFL.[Earn Champion Badge] AS [Champion],
+            CFL.[Earn Integrity Badge] AS [Integrity],
+            CFL.[Earn Mentor Badge] AS [Mentor],
+            CFL.[Earn Pro Badge] AS [Pro],
+            CFL.[Earn Trailblazer Badge] AS [Trailblazer],
+            CFL.[Earn Collaborator Badge] AS [Collaborator],
+            CFL.[Earn Reliable Badge] AS [Reliable],
+            CFL.[Earn Visionary Badge] AS [Visionary],
+            CFL.[Earn Adaptive Badge] AS [Adaptive],
+            CFL.[Earn Expert Badge] AS [Expert],
+            CFL.[Earn Deep Diver Badge] AS [Deep Diver],
+            CFL.[Earn Versatile Badge] AS [Versatile],
+            CFL.[Receive a CAN] AS [CANs],
+            CFL.[Receive an Administrative Act] AS [A.Acts]
+        FROM 
+            [dbo].[ChampionsFridayLeaderboardByYear]CFL 
+            INNER JOIN [dbo].[Employees] E On CFL.id = E.id
+            INNER JOIN [dbo].[Practices] P ON E.practice_id = P.id
+        ${whereClause}
+        ORDER BY CFL.[Grand Total Badges] DESC
+    `;
+    const pool = await poolPromise;
+    const result = await pool.request().query(query);
+    return this._getChampionsLeaderboardFromResult(result.recordset); // Return the results
+  } catch (err) {
+    console.error('Error fetching Champions Friday leaderboard:', err);
+    throw err; // Rethrow the error for handling elsewhere
+  }
+};
+
   /**
    * Gets the leaderboard from results object
    * TODO: this is hardly couppled with the getChampions Leaderboard method. Need to uncoupple it. 
@@ -145,7 +192,9 @@ class ChampionsFridayModel {
           practice: row['Practice Name'],
           grandTotalBadges: row['Grand Total Badges'],
           quarterBadges: row['Quarter Badges'],
+          yearBadges: row['Year Badges'],
           quarter: row['Quarter'],
+          year: row['Year'],          
           badges: employeeBadges
         }
       });
