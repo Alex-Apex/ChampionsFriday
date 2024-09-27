@@ -1,0 +1,39 @@
+<!-- Level Card Component -->
+    <div id="{{this.id}}_{{this.quarter}}" class="flex flex-row bg-white shadow-md rounded-lg p-8 m-4">
+      <div class="flex items-center mb-4 w-1/4">
+        <img src="https://via.placeholder.com/50" alt="User Avatar" class="w-12 h-12 rounded-full mr-4">
+        <div>
+          <h2 class="text-xl font-semibold">{{name}}</h2>
+          <label id="lblSeniority" class="text-gray-500">{{seniority}}</label><br/>
+          <label id="lblPractice" class="text-gray-500">{{this.practice}}</label>
+        </div>
+      </div>
+    
+      <div class="m-4 items-center w-1/6">
+        <label id="lblTotalBadges" class="text-sm text-gray-700 font-bold">Total Badges Earned This Year</label>
+        <p class="text-3xl font-extrabold text-apexBlue">{{ this.yearBadges }}</p>
+        <label id="lblTotalBadges" class="text-sm text-gray-700 font-bold">Total Level Badges</label>
+        <p class="text-3xl font-extrabold text-apexBlue">{{ this.grandTotalBadges }}</p>
+      </div>
+    
+      <div class="m-4 w-2/4">
+        <p class="text-sm text-gray-700 font-bold">Value-Behavior Profile Badges</p>
+        <div class="grid grid-cols-4 gap-2">
+        {{#each this.badges }}
+          <span class="inline-block 
+                text-white text-xs font-bold px-3 py-1 rounded-full 
+                {{#if (eq this.material "N/A")}}bg-teal2{{else}}bg-teal1 shadow-md{{/if}}">
+                {{#if (eq this.material "N/A")}}
+                  {{ this.name}}</span>
+                {{else}}{{this.material}} {{ this.name }}</span>
+                {{/if}}
+        {{/each }}
+        </div>
+      </div>
+    
+    <div class="m-4">
+      <p class="text-sm text-gray-700 font-bold">Actions</p>
+      <button id="btnAction" type="button" 
+      class="inline-block bg-teal2 text-white text-xs font-bold px-3 py-1 rounded-full">View Details</button>
+    </div>
+  </div>

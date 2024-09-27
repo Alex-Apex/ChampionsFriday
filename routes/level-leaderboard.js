@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
   
   try {
     const filter = req.query.txtQtrId || '*';    
-    res.render("level-leaderboard", await ctrl.getLevelsLeaderboardView(filter));
+    res.status(200).render("level-leaderboard", await ctrl.getLevelsLeaderboardView(filter));
   } catch (err) {
     console.log('leaderboard: bad quarter id',err);
     res.status(400).send('<h1>The Quarter you selected did not return any results</h1>');
