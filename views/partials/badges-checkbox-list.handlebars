@@ -1,7 +1,9 @@
-<div id="badgesCheckboxList" class="grid grid-cols-2 gap-2 mt-1">
+<div id="badgesCheckboxList" class="grid grid-cols-4 gap-2 mt-1">
   {{#each availableBadges }}
     <label>
       <input id="chk{{name}}" type="checkbox" name="badges" value="{{name}}" class="mr-2">{{name}}
     </label>
+    {{else}}
+      <h2 class="font-bold text-lg text-apexBlue m-8">No badges left to assign.</h2>
   {{/each }}
 </div>

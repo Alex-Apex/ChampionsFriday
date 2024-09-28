@@ -13,4 +13,31 @@ router.get('/', async (req, res) => {
   }
 });
 
+/**
+ * 
+ */
+router.get("/quarter-badges", async (req, res) => {
+  const ctrl = new QuarterlyLeaderboardController();
+  try{
+    res.status(200).render("partials/badges-checkbox-list",await ctrl.getRemainingQuarterBadges(req.query));
+  } catch (err) {
+    console.error(`Failed to get the available badges for the quarter and username provided`, err);
+    res.status(400).send(`Failed to get the available badges for the quarter and username provided ${err}`);
+  }
+});
+
+// Handles the event of awarding a new badge
+router.post("/awardbadge", async (req, res) => {
+  console.log('Inside /awardBadge');
+  const ctrl = new QuarterlyLeaderboardController();
+  try{
+    res.status(200).render("partials/quarter-leaderboard-list", await ctrl.awardBadges(req.body));
+  } catch(err) {
+    console.error("Error while attempting to award badges:", err);
+    res.status(500).send("Error while attempting to award badges"); // TODO: Handle errors more robustly
+    //TODO show error toast on client
+    return;
+  }
+});
+
 module.exports = router;

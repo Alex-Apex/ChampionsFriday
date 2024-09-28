@@ -6,14 +6,14 @@
     <label class="flex flex-col">
       <span class="font-semibold">Username</span>
       <input id="txtUsername" name="txtUsername" type="text" hx-target="#badgesCheckboxList"
-        hx-trigger="keyup delay:600ms changed" hx-get="/leaderboard/quarter-badges"
+        hx-trigger="keyup delay:600ms changed" hx-get="/quarterly-leaderboard/quarter-badges" hx-swap="outerHTML"
         hx-include="[name='txtUsername'], [name='txtDateAwarded']" class="mt-1 p-2 border rounded-md" />
     </label>
 
     <label class="flex flex-col">
       <span class="font-semibold">Date Awarded</span>
       <input id="txtDateAwarded" name="txtDateAwarded" type="date" hx-target="#badgesCheckboxList"
-        hx-trigger="change blur" hx-get="/leaderboard/quarter-badges" value=""
+        hx-trigger="change blur" hx-get="/quarterly-leaderboard/quarter-badges" value="" hx-swap="outerHTML"
         hx-include="[name='txtUsername'], [name='txtDateAwarded']" class="mt-1 p-2 border rounded-md" />
     </label>
 
@@ -24,7 +24,7 @@
 
     <div class="flex flex-col">
       <span class="font-semibold">Available Badges:</span>
-      <div id="badgesCheckboxList" class="grid grid-cols-2 gap-2 mt-1">
+      <div id="badgesCheckboxList" class="grid grid-cols-4 gap-2 mt-1">
         <label><input type="checkbox" name="badges" value="Champion" class="mr-2">Champion</label>
         <label><input type="checkbox" name="badges" value="Integrity" class="mr-2">Integrity</label>
         <label><input type="checkbox" name="badges" value="Mentor" class="mr-2">Mentor</label>
@@ -44,7 +44,7 @@
     <div class="flex justify-end space-x-4 mt-4">
       <button type="button" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
         onclick="document.getElementById('dlgAwardBadge').close()">Cancel</button>
-      <button hx-post="/leaderboard/awardbadge" type="submit"
+      <button hx-post="/quarterly-leaderboard/awardbadge" type="submit"
         class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
         onclick="document.getElementById('dlgAwardBadge').close()">Award Badges</button>
     </div>

@@ -213,7 +213,7 @@ class ChampionsFridayModel {
         return { name: badge, material: 'N/A' };
       });
     } else {
-      const user = this.getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
+      const user = this._getChampionsLeaderboardFromResult(result)[0]; //assuming it is always the first one
       missingBadges = user.badges.filter((badge) => {
         return badge.material === 'N/A';
       });
@@ -322,7 +322,7 @@ class ChampionsFridayModel {
           ${whereClause}
           ORDER BY CFL.[Grand Total Badges] DESC
       `;
-      console.log(query);
+      
       const result = await pool.request().query(query);
       return result.recordset; // Return the results
     } catch (err) {
