@@ -13,6 +13,17 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/list', async (req, res) => {
+  const ctrl = new QuarterlyLeaderboardController();
+  try {
+    const filter = req.query.txtQtrId || '*';
+    res.status(200).render("partials/quarter-leaderboard-list", await ctrl.getQuarterlyLeaderboardView(filter));
+  } catch (err) {
+    console.log('bad quarter id',err);
+    res.status(400).send(`<h1>The Quarter you selected did not return any results. ${err}</h1>`);
+  }
+});
+
 /**
  * 
  */
