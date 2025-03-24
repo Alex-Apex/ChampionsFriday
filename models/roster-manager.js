@@ -17,9 +17,10 @@ class RosterManager {
       {id:5, title:'CS - Sr. Lead Consultant'},
       {id:6, title:'CS - Managing Consultant'},
       {id:7, title:'CS - Practice Manager'},
-      {id:8, title:'CS - Practice Director'},
-      {id:9, title:'CS - SR Practice Director'},
-      {id:10, title:'CS - Managing Director'}
+      {id:8, title:'CS - Sr. Practice Manager'},
+      {id:9, title:'CS - Practice Director'},
+      {id:10, title:'CS - SR Practice Director'},
+      {id:11, title:'CS - Managing Director'}
     ];
   }
   /**
