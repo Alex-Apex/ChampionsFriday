@@ -18,7 +18,7 @@ router.get('/list', async (req, res) => {
   try {
     const filter = {
       quarterId : req.query.txtQtrId || '*',
-      practiceId : req.query.practiceFilter || '*',
+      practiceId : req.query.practiceFilter ? req.query.practiceFilter==='all'? '*': req.query.practiceFilter:'*',
       seniority: req.query.seniorityFilter || '*',
       seniority: req.query.badgeType || '*',
       badgeAxis: req.query.badgeAxis || '*'
@@ -36,7 +36,7 @@ router.get('/addFilter', async (req, res) => {
   try {
     const filter = {
       quarterId : req.query.txtQtrId || '*',
-      practiceId : req.query.practiceFilter || '*',
+      practiceId : req.query.practiceFilter ? req.query.practiceFilter==='all'? '*': req.query.practiceFilter:'*',
       seniority: req.query.seniorityFilter || '*',
       seniority: req.query.badgeType || '*',
       badgeAxis: req.query.badgeAxis || '*'

@@ -70,10 +70,9 @@ class ChampionsFridayModel {
 
     if (this.isValidLeaderboardQuarterFilter(quarterFilter)) {
       if (quarterFilter === '*') {
-        whereClause = '';
         if(practiceFilter !== '*'){
           whereClause += `WHERE E.practice_id = '${practiceFilter}'`;
-        }
+        }        
       } else {
         whereClause = `WHERE CFL.[Quarter] = '${quarterFilter}'`;
         if(practiceFilter !== '*'){
@@ -81,7 +80,7 @@ class ChampionsFridayModel {
         }
       }
     } else {
-      throw new Error(`User defined invalid quarter quarterFilter: ${quarterFilter}`);
+      throw new Error(`User defined invalid quarter quarterFilter: ${quarterFilter} or practiceFilter: ${practiceFilter}`);
     }
     console.log('Where clause:', whereClause);
     return whereClause;

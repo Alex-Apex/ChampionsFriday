@@ -16,6 +16,7 @@ class QuarterlyLeaderboard {
    * @returns
    */
   async getQuarterlyLeaderboardView(filter){
+    console.log(filter);
     const CFModel = new ChampionsFridayModel();
     const RMModel = new RosterManager();
     const champions = await CFModel.getChampionsFridayLeaderboard(filter);    //TODO refactor this and only use quarterly LeaderboardMOdel
