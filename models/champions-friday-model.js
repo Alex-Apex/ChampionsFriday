@@ -61,17 +61,32 @@ class ChampionsFridayModel {
    */
   _getWhereClauseFromFilter(filter){
     let whereClause = '';
-    if (this.isValidLeaderboardQuarterFilter(filter)) {
-      if (filter === '*') {
+    const quarterFilter = filter.quarterId || '*';
+    const practiceFilter = filter.practiceId || '*';
+    //TODO these filters are not being used.
+    const seniorityFilter = filter.seniority || '*';
+    const badgeTypeFilter = filter.badgeType || '*';
+    const badgeAxisFilter = filter.badgeAxis || '*';
+
+    if (this.isValidLeaderboardQuarterFilter(quarterFilter)) {
+      if (quarterFilter === '*') {
         whereClause = '';
+        if(practiceFilter !== '*'){
+          whereClause += `WHERE E.practice_id = '${practiceFilter}'`;
+        }
       } else {
-        whereClause = `WHERE CFL.[Quarter] = '${filter}'`;
+        whereClause = `WHERE CFL.[Quarter] = '${quarterFilter}'`;
+        if(practiceFilter !== '*'){
+          whereClause += ` AND E.practice_id = '${practiceFilter}'`;
+        }
       }
     } else {
-      throw new Error(`User defined invalid quarter filter: ${filter}`);
+      throw new Error(`User defined invalid quarter quarterFilter: ${quarterFilter}`);
     }
+    console.log('Where clause:', whereClause);
     return whereClause;
   };
+
   /**
    * Builds the filter which is to be used in the query
    * @param {*} filter 

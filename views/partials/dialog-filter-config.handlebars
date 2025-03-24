@@ -81,8 +81,10 @@
     <div class="flex justify-end space-x-4 mt-4">
       <button id="btnCancelFiltersConfig" type="reset" class="bg-gray-300 font-bold py-2 px-4 rounded-md"
         onclick="document.getElementById('dlgFiltersConfig').close()">Cancel</button>
-      <button id="btnSaveFiltersConfig" type="submit" class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md"
-        onclick="document.getElementById('dlgFiltersConfig').close()">Save</button>
+      <button id="btnSaveFiltersConfig" type="submit" hx-get="/quarterly-leaderboard/addFilter" 
+      hx-target="#leaderboard-list" hx-include="[name='txtQtrId'],[name='practiceFilter'],[name='seniorityFilter'],[name='badgeType'],[name='badgeAxis']"
+        hx-on::before-request="document.getElementById('dlgFiltersConfig').close()"
+        class="bg-logoGrey text-white font-bold py-2 px-4 rounded-md">Save</button>
     </div>
   </form>
 </dialog>

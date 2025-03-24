@@ -2,7 +2,7 @@
   <ul class="flex flex-wrap space-x-4 items-center w-full p-4">
     <li class="flex flex-col">
       <label for="txtQtrId" class="text-sm font-medium text-gray-700">Quarter Id (* or Q#-yyyy)</label>
-      <input id="txtQtrId" name="txtQtrId" type="text" hx-include="[name='txtQtrId']"
+      <input id="txtQtrId" name="txtQtrId" type="text" hx-include="[name='txtQtrId'],[name='practiceFilter'],[name='seniorityFilter'],[name='badgeType'],[name='badgeAxis']"
         hx-trigger="keyup changed delay:600ms" hx-get="/quarterly-leaderboard/list" hx-target="#leaderboard-list" hx-swap="outerHTML" value="*"
         placeholder="Q2-2024 or *"
         class="border border-gray-300 rounded-md p-2 focus:ring-logoGrey focus:border-logoGrey sm:text-sm" />

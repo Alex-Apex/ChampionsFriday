@@ -12,7 +12,8 @@ class QuarterlyLeaderboard {
 
   /**
    *  
-   * @param {*} filter 
+   * @param {*} filter This is a complex object which contains the filters to be applied to the leaderboard
+   * @returns
    */
   async getQuarterlyLeaderboardView(filter){
     const CFModel = new ChampionsFridayModel();
@@ -24,7 +25,8 @@ class QuarterlyLeaderboard {
       layout:'main',
       title:'Champions Friday Quarterly Leaderboard', 
       champions:champions,
-      practices: practices
+      practices: practices,
+      currentFilterConfig: filter
     };
   };
 

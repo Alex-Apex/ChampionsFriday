@@ -183,8 +183,7 @@ async getEmployee(id){
     const query = `SELECT * FROM Practices`;
     try {
       const pool = await poolPromise;
-      const result = await pool.request().query(query);
-      console.log('Practices Catalogue:', result.recordset);
+      const result = await pool.request().query(query);      
       return result.recordset; // Return the results
     } catch (err) {
       console.error('RosterManager: Error fetching Practices Catalogue', err);

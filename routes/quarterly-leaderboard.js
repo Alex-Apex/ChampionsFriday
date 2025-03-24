@@ -12,15 +12,41 @@ router.get('/', async (req, res) => {
     res.status(400).send(`<h1>The Quarter you selected did not return any results. ${err}</h1>`);
   }
 });
-
+// TODO should we use /list or /addFilter for filtering? there is common code that could be refactored
 router.get('/list', async (req, res) => {
   const ctrl = new QuarterlyLeaderboardController();
   try {
-    const filter = req.query.txtQtrId || '*';
+    const filter = {
+      quarterId : req.query.txtQtrId || '*',
+      practiceId : req.query.practiceFilter || '*',
+      seniority: req.query.seniorityFilter || '*',
+      seniority: req.query.badgeType || '*',
+      badgeAxis: req.query.badgeAxis || '*'
+    };
     res.status(200).render("partials/quarter-leaderboard-list", await ctrl.getQuarterlyLeaderboardView(filter));
   } catch (err) {
     console.log('bad quarter id',err);
     res.status(400).send(`<h1>The Quarter you selected did not return any results. ${err}</h1>`);
+  }
+});
+
+router.get('/addFilter', async (req, res) => {
+  console.log('Inside /addFilter');
+  const ctrl = new QuarterlyLeaderboardController();
+  try {
+    const filter = {
+      quarterId : req.query.txtQtrId || '*',
+      practiceId : req.query.practiceFilter || '*',
+      seniority: req.query.seniorityFilter || '*',
+      seniority: req.query.badgeType || '*',
+      badgeAxis: req.query.badgeAxis || '*'
+    };
+
+    console.log("filter", filter);
+    res.status(200).render("partials/quarter-leaderboard-list", await ctrl.getQuarterlyLeaderboardView(filter));
+  } catch (err) {
+    console.log('bad quarter id',err);
+    res.status(400).send(`<h1>The filters selected did not return any results. ${err}</h1>`);
   }
 });
 
