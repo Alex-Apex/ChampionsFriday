@@ -135,7 +135,7 @@ async getEmployee(id){
       FROM
           EMPLOYEES
       WHERE
-          id = 2  -- the Id of the director you're starting from
+          id = 3  -- the Id of the director you're starting from
         
       UNION ALL
   
