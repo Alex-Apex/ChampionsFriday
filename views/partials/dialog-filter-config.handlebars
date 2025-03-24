@@ -8,11 +8,13 @@
       <select id="practiceFilter" name="practiceFilter" class="border border-gray-300 rounded-md p-2 focus:ring-logoGrey focus:border-logoGrey sm:text-sm">
         <option value="all">All Practices</option>
         <option value="frontend">Frontend Development</option>
-        <option value="net">.Net Development</option>
-        <option value="java">Java</option>
-        <option value="mobile">Mobile</option>
         <option value="ux">UX</option>
-        <!-- Add more practices as needed -->
+        <!-- Dynamically loading all practices -->
+        {{#each practices}}
+          <option value="{{id}}">{{name}}</option>
+          {{else}}
+            <h2 class="font-bold text-lg text-apexBlue m-8">Didn't find any practices! Please contact Alex Gomez...</h2>
+        {{/each}}
       </select>
     </div>
     

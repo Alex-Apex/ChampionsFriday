@@ -3,6 +3,7 @@
  */
 const ChampionsFridayModel = require('../models/champions-friday-model');
 const QuarterlyLeaderboardModel = require('../models/quarterly-leaderboard-model');
+const RosterManager = require('../models/roster-manager');
 
 class QuarterlyLeaderboard {
   constructor(){
@@ -15,12 +16,15 @@ class QuarterlyLeaderboard {
    */
   async getQuarterlyLeaderboardView(filter){
     const CFModel = new ChampionsFridayModel();
+    const RMModel = new RosterManager();
     const champions = await CFModel.getChampionsFridayLeaderboard(filter);    //TODO refactor this and only use quarterly LeaderboardMOdel
-    
+    const practices = await RMModel.getPracticesCatalogue();
+
     return {
       layout:'main',
       title:'Champions Friday Quarterly Leaderboard', 
-      champions:champions
+      champions:champions,
+      practices: practices
     };
   };
 

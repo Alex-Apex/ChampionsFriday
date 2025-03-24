@@ -184,6 +184,7 @@ async getEmployee(id){
     try {
       const pool = await poolPromise;
       const result = await pool.request().query(query);
+      console.log('Practices Catalogue:', result.recordset);
       return result.recordset; // Return the results
     } catch (err) {
       console.error('RosterManager: Error fetching Practices Catalogue', err);
