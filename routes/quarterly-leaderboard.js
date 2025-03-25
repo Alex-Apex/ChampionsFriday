@@ -2,10 +2,20 @@ const express = require("express");
 const router = express.Router();
 const QuarterlyLeaderboardController = require('../controllers/quarterly-leaderboard-controller');
 
+getQuarterlyFilterObject = (req) => {
+  return {
+    quarterId : req.query.txtQtrId || '*',
+    practiceId : req.query.practiceFilter ? req.query.practiceFilter==='all'? '*': req.query.practiceFilter:'*',
+    seniority: req.query.seniorityFilter || '*',
+    badgeMaterial: req.query.badgeType || '*',
+    badgeAxis: req.query.badgeAxis || '*'
+  };
+}
+
 router.get('/', async (req, res) => {
   const ctrl = new QuarterlyLeaderboardController();
   try {
-    const filter = req.query.txtQtrId || '*';
+    const filter = getQuarterlyFilterObject(req);
     res.status(200).render("quarterly-leaderboard", await ctrl.getQuarterlyLeaderboardView(filter));
   } catch (err) {
     console.log('bad quarter id',err);
@@ -16,13 +26,8 @@ router.get('/', async (req, res) => {
 router.get('/list', async (req, res) => {
   const ctrl = new QuarterlyLeaderboardController();
   try {
-    const filter = {
-      quarterId : req.query.txtQtrId || '*',
-      practiceId : req.query.practiceFilter ? req.query.practiceFilter==='all'? '*': req.query.practiceFilter:'*',
-      seniority: req.query.seniorityFilter || '*',
-      seniority: req.query.badgeType || '*',
-      badgeAxis: req.query.badgeAxis || '*'
-    };
+    const filter = getQuarterlyFilterObject(req);
+    console.log("filter", filter);
     res.status(200).render("partials/quarter-leaderboard-list", await ctrl.getQuarterlyLeaderboardView(filter));
   } catch (err) {
     console.log('bad quarter id',err);
@@ -34,14 +39,7 @@ router.get('/addFilter', async (req, res) => {
   console.log('Inside /addFilter');
   const ctrl = new QuarterlyLeaderboardController();
   try {
-    const filter = {
-      quarterId : req.query.txtQtrId || '*',
-      practiceId : req.query.practiceFilter ? req.query.practiceFilter==='all'? '*': req.query.practiceFilter:'*',
-      seniority: req.query.seniorityFilter || '*',
-      seniority: req.query.badgeType || '*',
-      badgeAxis: req.query.badgeAxis || '*'
-    };
-
+    const filter = getQuarterlyFilterObject(req);
     console.log("filter", filter);
     res.status(200).render("partials/quarter-leaderboard-list", await ctrl.getQuarterlyLeaderboardView(filter));
   } catch (err) {

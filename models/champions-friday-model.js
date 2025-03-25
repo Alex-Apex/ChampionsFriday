@@ -27,7 +27,7 @@ class ChampionsFridayModel {
       }
     ];
   };
-    
+  
   /**
    * Returns an array with all the badges in the catalog
    * @returns 
@@ -60,28 +60,26 @@ class ChampionsFridayModel {
    * @returns 
    */
   _getWhereClauseFromFilter(filter){
+    const WHERE_WORD = 'WHERE';
+    const AND_WORD = 'AND';
+    const OR_WORD = 'OR';
+    const LIKE_WORD = 'LIKE';
+    const QUARTER_FIELD = 'CFL.[Quarter]';
+    const PRACTICE_FIELD = 'E.practice_id';
+    const SENIORITY_FIELD = 'E.current_title';
+
     let whereClause = '';
-    const quarterFilter = filter.quarterId || '*';
-    const practiceFilter = filter.practiceId || '*';
+    const quarterFlter = (filter.quarterId!=='*' && this.isValidLeaderboardQuarterFilter(filter.quarterId)) ? `${QUARTER_FIELD} = '${filter.quarterId}'` : '';    
+    const practiceFilter = filter.practiceId!=='*' ? `${PRACTICE_FIELD} = ${filter.practiceId}`: '';
+    const seniorityFilter = filter.seniority !=='*' ? `${SENIORITY_FIELD} ${LIKE_WORD} '${filter.seniority}'`:'';
     //TODO these filters are not being used.
-    const seniorityFilter = filter.seniority || '*';
     const badgeTypeFilter = filter.badgeType || '*';
     const badgeAxisFilter = filter.badgeAxis || '*';
 
-    if (this.isValidLeaderboardQuarterFilter(quarterFilter)) {
-      if (quarterFilter === '*') {
-        if(practiceFilter !== '*'){
-          whereClause += `WHERE E.practice_id = '${practiceFilter}'`;
-        }        
-      } else {
-        whereClause = `WHERE CFL.[Quarter] = '${quarterFilter}'`;
-        if(practiceFilter !== '*'){
-          whereClause += ` AND E.practice_id = '${practiceFilter}'`;
-        }
-      }
-    } else {
-      throw new Error(`User defined invalid quarter quarterFilter: ${quarterFilter} or practiceFilter: ${practiceFilter}`);
-    }
+    let filtersArray = [quarterFlter, practiceFilter, seniorityFilter];
+    whereClause = filtersArray.filter((filter) => filter !== '').join(` ${AND_WORD} `);
+    whereClause = whereClause === '' ? '' : ` ${WHERE_WORD} ${whereClause}`;
+
     console.log('Where clause:', whereClause);
     return whereClause;
   };

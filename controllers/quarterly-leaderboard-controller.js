@@ -15,18 +15,19 @@ class QuarterlyLeaderboard {
    * @param {*} filter This is a complex object which contains the filters to be applied to the leaderboard
    * @returns
    */
-  async getQuarterlyLeaderboardView(filter){
-    console.log(filter);
+  async getQuarterlyLeaderboardView(filter){    
     const CFModel = new ChampionsFridayModel();
     const RMModel = new RosterManager();
     const champions = await CFModel.getChampionsFridayLeaderboard(filter);    //TODO refactor this and only use quarterly LeaderboardMOdel
     const practices = await RMModel.getPracticesCatalogue();
+    const seniorities = RMModel.getEmployeeTitles();
 
     return {
       layout:'main',
       title:'Champions Friday Quarterly Leaderboard', 
       champions:champions,
       practices: practices,
+      seniorityLevels: seniorities,
       currentFilterConfig: filter
     };
   };
