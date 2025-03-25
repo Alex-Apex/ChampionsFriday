@@ -20,7 +20,7 @@
     <div class="flex flex-col">
       <label for="seniorityFilter" class="text-sm font-medium text-gray-700">Seniority</label>
       <select id="seniorityFilter" name="seniorityFilter" class="border border-gray-300 rounded-md p-2 focus:ring-logoGrey focus:border-logoGrey sm:text-sm">
-        <option value="all">All Seniority Levels</option>
+        <option value="*">All Seniority Levels</option>
         {{#each seniorityLevels}}
           <option value="{{title}}">{{title}}</option>
           {{else}}
