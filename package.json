@@ -2,14 +2,15 @@
   "name": "championsfriday",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
     "build:css": "tailwindcss -i ./public/styles.css -o ./public/tailwind.css --watch",
-    "dev": "concurrently \"npm run build:css\" \"npm start\""
+    "vite:dev": "vite",
+    "vite:build": "vite build",
+    "dev": "concurrently \"npm run build:css\" \"npm run start\" \"npm run vite:dev\""
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -17,7 +18,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
-    "mssql": "^10.0.4"
+    "mssql": "^10.0.4",
+    "three": "^0.175.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.19",

@@ -7,6 +7,7 @@ const indexRouter = require("./routes/index");
 const levelLeaderboardRouter = require("./routes/level-leaderboard");
 const quarterlyLeaderboardRouter = require("./routes/quarterly-leaderboard");
 const rosterManagerRouter = require("./routes/roster-manager");
+const badgesHallRouter = require("./routes/badges-hall");
 const anonymousValidator = require("./routes/anonymous-validator");
 
 const app = express();
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/", indexRouter);
+app.use("/badges-hall", badgesHallRouter);
 app.use("/level-leaderboard", levelLeaderboardRouter);
 app.use("/quarterly-leaderboard", quarterlyLeaderboardRouter);
 app.use("/roster-manager", rosterManagerRouter);
