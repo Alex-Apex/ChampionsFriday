@@ -16,25 +16,19 @@ container.appendChild(renderer.domElement);
 
 // Lorem Ipsum text clearly
 const lines = [
-    "Episode Q1 2025",
-    "A new rebell base has decided to celebrate the vitory of the Q4-2024 and Q1-2025",
-    "",
-    "Gabriel Gomez Villasana",
-    "Practice: Java",
-    "Number of badges: 3",
-    "Logro un chorro de cosas muy buenas",
-    "El cliente lo quiere mucho.",
-    "",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
+    "Strategy Monday",
+    "A new rebel base has decided to celebrate ",
+    "the vitory of the Q4-2024 and Q1-2025",
+    " HOLA MIKEY!",
+    "Gaby Manzo",
+    "Gabriel Garcia",
+    "Francisco Ramirez",
+    "Carlos Banda",
+    "Victor Parra",
+    "Euler Ponce",
+    "Miguel Salazar",
+    "Cristian Hinojosa",
+    "Alex Gomez",
     ""
 ];
 const chunks = [];
