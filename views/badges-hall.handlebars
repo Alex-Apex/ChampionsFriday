@@ -1,27 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Crawl with Three.js</title>            
-    <link href="/tailwind.css" rel="stylesheet" />
-    <link href="/styles.css" rel="stylesheet" />
-    <script src="https://unpkg.com/htmx.org@2.0.2" 
-            integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" 
-            crossorigin="anonymous">
-    </script>
-    <style>
-        body { margin: 0; overflow: hidden; background-color: black; }
-        canvas { display: block; }
-    </style>
-    <script type="module">
+<div id="three-container">
+      <script type="module">
         import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js';
         window.THREE = THREE; // explicitly make THREE global
     </script>
     <script type="module" src="./starwars.js"></script>
-</head>
-<body>    
-    {{{body}}}
-    <div id="three-container"></div>
-</body>
-</html>
+</div>

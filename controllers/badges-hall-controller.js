@@ -9,7 +9,7 @@ class BadgesHallController {
      */
     getBadgesHallView() {
         return {
-            layout: 'main',
+            layout: 'badges-hall-layout',
             title: 'Badges Hall',
             badges: [
                 { name: 'Gold Badge', description: 'Awarded for excellence in coding.' },
