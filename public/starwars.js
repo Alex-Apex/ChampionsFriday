@@ -14,23 +14,46 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
 container.appendChild(renderer.domElement);
 
-// Lorem Ipsum text clearly
+
 const lines = [
-    "Strategy Monday",
-    "A new rebel base has decided to celebrate ",
-    "the vitory of the Q4-2024 and Q1-2025",
-    " HOLA MIKEY!",
-    "Gaby Manzo",
-    "Gabriel Garcia",
-    "Francisco Ramirez",
-    "Carlos Banda",
-    "Victor Parra",
-    "Euler Ponce",
-    "Miguel Salazar",
-    "Cristian Hinojosa",
-    "Alex Gomez",
-    ""
+    "Friday of Champions",
+    "Celebrating Q4-2024 and Q1-2025 Victories",
+    "Our Rebels Who Made It Happen",
+    "",
+
+    "Gerardo Herrera",
+    "Ayrton Teniente",
+    "Monica Abarca",
+    "Liliana Luna",
+    "Deniel Villarreal",
+
+    "Ramses Madera",
+    "Samuel Martinez",
+    "Marco Arias",
+    "Aaron Galvan",
+    "Ismael Martinez",
+
+    "Ricardo Martinez",
+    "Brian Hernandez",
+    "Juan Manuel Ledesma",
+    "Axel Malagon",
+    "Raul Torres",
+
+    "Luis Duarte",
+    "Abraham Martinez",
+    "Aaron Berrocal",
+    "Angel Flores",
+    "Juan Carlos Mendez",
+
+    "Moises Arellano",
+    "Mauricio Barragan",
+    "Saul Perez",
+    "",
+
+    "👏 Thank you, Champions! 👏",
+    "Apex ADM Power 💪"
 ];
+
 const chunks = [];
 for (let i = 0; i < lines.length; i += chunkSize) {
     chunks.push(lines.slice(i, i + chunkSize));
@@ -75,7 +98,7 @@ camera.rotation.x = Math.PI / 4; // camera tilted downwards
 function animate() {
   requestAnimationFrame(animate);
     planes.forEach((plane, i) => {        
-        plane.position.y += 0.035; 
+        plane.position.y += 0.025; 
     });
 
   //textMesh.position.y += 0.035;
